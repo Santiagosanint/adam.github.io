@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adam Douglas Heyes, M.A. - Spiritual Counseling & Life Coaching</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- TEMA Y EFECTOS VISUALES --- */
+        :root {
+            --color-pink: #C76B96;
+            --color-purple: #9670A9;
+            --color-cyan: #7FC1C7;
+            --color-green: #8EC8A9;
+            --color-aqua-start: #00D9C8;
+            --color-aqua-end: #00A99D;
+            --color-bg: #F4F4F6;
+            --color-text-dark: #25313b;
+            --color-text-light: #5e6b7a;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text-dark);
+            cursor: none;
+            overflow-x: hidden;
+        }
+        
+        /* --- EFECTOS GLOBALES Y NUEVOS --- */
+        #scroll-progress-bar {
+            position: fixed; top: 0; left: 0; height: 4px;
+            background: linear-gradient(90deg, var(--color-aqua-start), var(--color-cyan), var(--color-purple));
+            width: 0%; z-index: 10000; transition: width 0.1s linear;
+        }
+
+        .cursor-dot, .cursor-outline {
+            pointer-events: none; position: fixed; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; opacity: 0; transition: opacity 0.3s, transform 0.1s;
+        }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--color-aqua-start); }
+        .cursor-outline { width: 40px; height: 40px; background-color: rgba(0, 217, 200, 0.2); transition: transform 0.2s ease-out, width 0.3s, height 0.3s, background-color 0.3s; }
+        body:hover .cursor-dot, body:hover .cursor-outline { opacity: 1; }
+
+        /* --- FONDO OSCURO Y EFECTOS --- */
+        #hero-background-wrapper { position: absolute; inset: 0; overflow: hidden; }
+        #hero-background {
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, #2a6a70 0%, #1a4a50 70%, #0a2a30 100%);
+            z-index: 0;
+        }
+
+        /* Efecto #1: Estrellas fugaces (CSS) */
+        .shooting-star { position: absolute; height: 2px; background: linear-gradient(-45deg, rgba(0, 217, 200, 0.8), rgba(0, 0, 0, 0)); border-radius: 999px; filter: drop-shadow(0 0 6px rgba(0, 217, 200, 0.8)); animation: tail 3s ease-in-out infinite, shooting 3s ease-in-out infinite; }
+        @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
+        @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(300px); } }
+        .shooting-star:nth-child(1) { top: 20%; left: -50%; animation-delay: 1.3s; }
+        .shooting-star:nth-child(2) { top: 60%; left: -50%; animation-delay: 2.7s; }
+
+        /* Efecto #2: Burbuja de luz interactiva */
+        #cursor-light-blob { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 217, 200, 0.1) 0%, rgba(0, 217, 200, 0) 60%); pointer-events: none; transition: transform 0.3s ease-out; z-index: 1; }
+
+        .hero-section { perspective: 1000px; position: relative; }
+        
+        /* Efecto #3: Sombra de gradiente en tarjetas */
+        .tilt-card {
+            background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px 0 rgba(100, 108, 127, 0.1); will-change: transform; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .tilt-card:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 20px 40px 0 rgba(0, 169, 157, 0.2); border-color: white; }
+
+        /* --- BOTONES --- */
+        .btn-aurora { position: relative; overflow: hidden; background-image: linear-gradient(to right, var(--color-aqua-start) 0%, var(--color-aqua-end) 51%, var(--color-aqua-start) 100%); background-size: 200% auto; color: white; transition: all 0.4s ease; box-shadow: 0 4px 15px 0 rgba(0, 190, 175, 0.3); }
+        .btn-aurora:hover { background-position: right center; transform: translateY(-3px); box-shadow: 0 10px 20px 0 rgba(0, 190, 175, 0.4); }
+        .btn-aurora::before { content: ''; position: absolute; top: 0; left: -100%; width: 75%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: skewX(-25deg); transition: left 0.7s; }
+        .btn-aurora:hover::before { left: 120%; }
+        
+        .btn-outline-aurora {
+            background-color: transparent;
+            border: 2px solid var(--color-aqua-end);
+            color: var(--color-aqua-end);
+            transition: all 0.3s ease;
+        }
+        .btn-outline-aurora:hover {
+            background-color: var(--color-aqua-end);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 169, 157, 0.3);
+        }
+
+        .particle { position: absolute; border-radius: 50%; pointer-events: none; z-index: 10000; }
+
+        .scroll-animate { opacity: 0; transform: translateY(50px); transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .scroll-animate.visible { opacity: 1; transform: translateY(0); }
+        .stagger-1 { transition-delay: 100ms; } .stagger-2 { transition-delay: 200ms; } .stagger-3 { transition-delay: 300ms; } .stagger-4 { transition-delay: 400ms; } .stagger-5 { transition-delay: 500ms; } .stagger-6 { transition-delay: 600ms; }
+        .stagger-7 { transition-delay: 700ms; } .stagger-8 { transition-delay: 800ms; } .stagger-9 { transition-delay: 900ms; } .stagger-10 { transition-delay: 1000ms; } .stagger-11 { transition-delay: 1100ms; } .stagger-12 { transition-delay: 1200ms; }
+        
+        .aurora-gradient-text { 
+            background: linear-gradient(90deg, var(--color-pink), var(--color-purple), var(--color-cyan)); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            background-clip: text; text-fill-color: transparent; 
+        }
+
+        .neon-glow-title {
+            animation: neon-flicker 4s ease-in-out infinite alternate;
+        }
+        @keyframes neon-flicker {
+            0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px var(--color-aqua-start), 0 0 35px var(--color-aqua-start), 0 0 40px var(--color-aqua-start), 0 0 50px var(--color-aqua-start), 0 0 75px var(--color-aqua-start); }
+            50% { text-shadow: 0 0 2.5px #fff, 0 0 5px #fff, 0 0 7.5px #fff, 0 0 10px var(--color-aqua-start), 0 0 17.5px var(--color-aqua-start), 0 0 20px var(--color-aqua-start), 0 0 25px var(--color-aqua-start), 0 0 37.5px var(--color-aqua-start); }
+        }
+        
+        .focus-item { position: relative; background-color: rgba(255,255,255,0.6); backdrop-filter: blur(5px); border: 1px solid transparent; padding: 1rem; border-radius: 0.75rem; transition: all 0.3s ease; }
+        .focus-item::before { content: ""; position: absolute; inset: 0; border-radius: 0.75rem; padding: 1px; background: linear-gradient(45deg, var(--color-aqua-start), var(--color-cyan)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.3s ease; }
+        .focus-item:hover::before { opacity: 1; }
+
+        .service-icon-container:hover .icon-heart { animation: beat 0.8s infinite; }
+        .service-icon-container:hover .icon-brain { animation: pulse 1.5s infinite; }
+        .service-icon-container:hover .icon-star { animation: twinkle 2s infinite; }
+        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(127, 193, 199, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(127, 193, 199, 0); } }
+        @keyframes twinkle { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8) rotate(15deg); } }
+
+        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, auto); gap: 1.5rem; }
+        .bento-item-1 { grid-column: 1 / 3; } .bento-item-2 { grid-column: 3 / 4; grid-row: 1 / 3; } .bento-item-3 { grid-column: 1 / 2; } .bento-item-4 { grid-column: 2 / 3; }
+        
+        .counter-number { font-feature-settings: 'tnum'; }
+
+        .spotlight-section { 
+            background: linear-gradient(180deg, #2a6a70 0%, #1a4a50 70%, #0a2a30 100%); 
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        .form-input-container { position: relative; }
+        .form-input { transition: border-color 0.3s, box-shadow 0.3s; }
+        .input-focus-line { position: absolute; bottom: 0; left: 0; height: 2px; width: 0; background: var(--color-aqua-start); transition: width 0.4s ease; }
+        .form-input:focus ~ .input-focus-line { width: 100%; }
+        
+        .testimonial-slide { display: none; animation: fadeIn 0.7s; } .testimonial-slide.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .testimonial-dot { transition: all 0.3s; } .testimonial-dot.active { width: 2rem; background-color: var(--color-aqua-start); }
+        
+        /* Chat & Modal Styles */
+        #chat-window, #login-modal { display: none; flex-direction: column; transform-origin: bottom right; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes slideOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(20px) scale(0.95); } }
+        #chat-window.open, #login-modal.open { display: flex; animation: slideIn 0.3s ease-out forwards; }
+        #chat-window.closing, #login-modal.closing { animation: slideOut 0.3s ease-in forwards; }
+
+        .chat-message.user > div { background-color: var(--color-aqua-end); color: white; }
+        .chat-message.bot > div { background-color: #F1F3F6; color: var(--color-text-dark); }
+        
+        .gallery-track { display: flex; animation: scroll 80s linear infinite; width: calc(370px * 18); }
+        .gallery-item { width: 350px; height: 350px; flex-shrink: 0; background-size: cover; background-position: center; margin: 0 10px; border-radius: 1.5rem; border: 4px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease; }
+        .gallery-item:hover { transform: scale(1.05) rotate(1deg); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        .gallery-container:hover .gallery-track { animation-play-state: paused; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        #chat-bubble { animation: pulse-bubble 2.5s infinite; }
+        @keyframes pulse-bubble { 0%, 100% { transform: scale(1); box-shadow: 0 4px 15px 0 rgba(0, 190, 175, 0.3); } 50% { transform: scale(1.05); box-shadow: 0 10px 20px 0 rgba(0, 190, 175, 0.5); } }
+        
+        .magnetic-item { position: relative; }
+        .magnetic-item::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px; background-color: var(--color-aqua-start); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+        .magnetic-item:hover::after { transform: scaleX(1); transform-origin: left; }
+
+        /* --- STYLES FROM FILM PAGE --- */
+        .font-cinzel { font-family: 'Cinzel', serif; }
+
+        /* Marquee Animation */
+        @keyframes scroll-left {
+          from { transform: translateX(0); }
+          to { transform: translateX(-100%); }
+        }
+        .marquee-wrapper {
+          overflow: hidden; display: flex; position: relative; width: 100%;
+        }
+        .marquee-row {
+          display: flex; flex-shrink: 0; align-items: center; justify-content: flex-start; min-width: 100%;
+          animation: scroll-left 90s linear infinite;
+        }
+        .marquee-wrapper:hover .marquee-row { animation-play-state: paused; }
+        
+        /* Glow Effect */
+        @keyframes glow-pulse-animation {
+          0%, 100% { box-shadow: 0 0 15px 0px rgba(0, 217, 200, 0.5); }
+          50% { box-shadow: 0 0 30px 10px rgba(0, 217, 200, 0.8); }
+        }
+        .glow-pulse { animation: glow-pulse-animation 3s infinite ease-in-out; }
+        
+        .neon-glow-price {
+          animation: neon-flicker-price 5s ease-in-out infinite alternate;
+        }
+        @keyframes neon-flicker-price {
+            0%, 100% { text-shadow: 0 0 3px #fff, 0 0 6px #fff, 0 0 9px var(--color-aqua-end), 0 0 15px var(--color-aqua-end); }
+            50% { text-shadow: 0 0 1.5px #fff, 0 0 3px #fff, 0 0 4.5px var(--color-aqua-end); }
+        }
+
+        /* Pricing Table */
+        .pricing-table-container { overflow-x: auto; }
+        .pricing-table { border-collapse: collapse; width: 100%; min-width: 600px; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05); border-radius: 1rem; overflow: hidden; }
+        .pricing-table th { background-color: var(--color-aqua-end); color: white; }
+        .pricing-table th, .pricing-table td { padding: 1.5rem 1rem; text-align: left; }
+        .pricing-table td { border-bottom: 1px solid #e5e7eb; }
+        .pricing-table tr:last-child td { border-bottom: none; }
+        .pricing-table tbody tr:nth-child(even) { background-color: #f0f7f7; }
+        .pricing-table tbody tr { background-color: white; }
+        .pricing-table tbody tr:hover { background-color: #d1eded; }
+        .pricing-table td.highlight {
+            color: inherit; 
+        }
+
+        /* No Scrollbar Utility */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Background Aurora Effect */
+        .aurora-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          overflow: hidden;
+          z-index: -1;
+        }
+        .aurora-bg::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 120%;
+          padding-bottom: 120%;
+          border-radius: 50%;
+          background-image: radial-gradient(circle at center, rgba(150, 112, 169, 0.2) 0%, rgba(0, 217, 200, 0.2) 50%, transparent 70%);
+          transform: translate(-50%, -50%);
+          animation: aurora-spin 20s linear infinite;
+        }
+        @keyframes aurora-spin {
+          from { transform: translate(-50%, -50%) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div id="scroll-progress-bar"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header id="main-nav" class="fixed top-0 left-0 w-full z-40 transition-all duration-300 bg-white/70 backdrop-blur-lg border-b border-transparent">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-1 flex justify-start">
+                    <nav class="hidden md:flex items-center space-x-8">
+                        <a href="#about" class="font-medium text-gray-600 hover:text-cyan-600 transition magnetic-item">Meet Adam</a>
+                        <a href="#focus" class="font-medium text-gray-600 hover:text-cyan-600 transition magnetic-item">Services</a>
+                        <a href="#benefits" class="font-medium text-gray-600 hover:text-cyan-600 transition magnetic-item">Work with Adam</a>
+                    </nav>
+                </div>
+                <div class="flex-1 flex justify-center"><a href="#" aria-label="Home"><img src="https://static.tildacdn.net/tild3261-3433-4132-b633-646135393839/Adam_Heyes_Logo_Tran.png" alt="Adam Heyes Logo" class="h-16 transition-transform duration-300"></a></div>
+                <div class="flex-1 flex items-center justify-end">
+                    <nav class="hidden md:flex items-center space-x-8">
+                        <a href="#testimonials" class="font-medium text-gray-600 hover:text-cyan-600 transition magnetic-item">Testimonials</a>
+                    <a href="#contact" class="font-medium text-gray-600 hover:text-cyan-600 transition magnetic-item">Contact</a>
+                </nav>
+                <button id="show-film-view-btn" class="btn-outline-aurora px-6 py-2 rounded-full font-semibold ml-6 magnetic-item">Film</button>
+                <button id="campus-virtual-btn" class="btn-aurora text-white px-6 py-2 rounded-full font-semibold ml-4 magnetic-item">Campus Virtual</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div id="main-view">
+            <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+                <div id="hero-background-wrapper">
+                    <div id="hero-background"></div>
+                <div class="shooting-star"></div>
+                <div class="shooting-star"></div>
+                
+                <div id="cursor-light-blob"></div>
+            </div>
+            <div id="hero-content" class="relative z-10 max-w-6xl mx-auto px-6 py-24 text-center">
+                <div class="space-y-8">
+                    <div class="inline-block px-6 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 scroll-animate">
+                        <p class="text-sm font-medium text-white">Spiritual Counseling & Life Coaching</p>
+                    </div>
+                    <h1 id="hero-headline" class="text-5xl md:text-7xl font-bold leading-tight scroll-animate stagger-1 text-white neon-glow-title"></h1>
+                    <div class="max-w-3xl mx-auto scroll-animate stagger-2">
+                        <p class="text-2xl md:text-3xl text-gray-200 italic font-light leading-relaxed">"The wound is the place where the Light enters you."</p>
+                        <p class="text-gray-300 mt-2">- Rumi</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8 scroll-animate stagger-3">
+                        <a href="#contact" class="btn-aurora text-white px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-2xl inline-flex items-center gap-2 magnetic-item">
+                            Schedule Free Consultation
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE BENEFICIOS -->
+        <section id="benefits" class="py-24 px-6 bg-white relative overflow-hidden">
+            <div class="max-w-6xl mx-auto relative z-10">
+                <div class="text-center mb-16 scroll-animate">
+                    <h2 class="text-5xl md:text-6xl font-bold text-gray-800 mb-6 aurora-gradient-text">Transform Your Life</h2>
+                    <p class="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-light">
+                        Manifest <strong class="text-pink-600 font-semibold">radiant wellness</strong> in every aspect of your being. Heal and release dis-ease, depression, anxiety, trauma, and limiting beliefs.
+                    </p>
+                </div>
+                <!-- Bento Grid Layout -->
+                <div class="bento-grid">
+                    <div class="bento-item-1 p-8 rounded-2xl tilt-card flex flex-col justify-between scroll-animate">
+                        <div>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-4">What You'll Experience</h3>
+                            <div class="space-y-4">
+                                <div class="flex gap-4 items-center service-icon-container"><div class="text-pink-500 bg-pink-100 p-3 rounded-xl flex-shrink-0"><svg class="w-6 h-6 icon-heart" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div><div><h4 class="text-lg font-semibold text-gray-800">Deep Healing</h4></div></div>
+                                <div class="flex gap-4 items-center service-icon-container"><div class="text-cyan-500 bg-cyan-100 p-3 rounded-full flex-shrink-0 icon-brain"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v4a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/><path d="M5 22h14"/></svg></div><div><h4 class="text-lg font-semibold text-gray-800">Mental Clarity</h4></div></div>
+                                <div class="flex gap-4 items-center service-icon-container"><div class="text-purple-500 bg-purple-100 p-3 rounded-xl flex-shrink-0 icon-star"><svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8-5.6.8 4 3.9-1 5.5 5-2.6 5 2.6-1-5.5 4-3.9-5.6-.8z"/></svg></div><div><h4 class="text-lg font-semibold text-gray-800">Spiritual Growth</h4></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bento-item-2 p-8 rounded-2xl tilt-card scroll-animate stagger-1">
+                         <div class="w-14 h-14 bg-gradient-to-br from-cyan-400 to-green-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-cyan-500/30"><svg class="w-7 h-7 text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                        <h3 class="text-2xl mb-2 font-bold text-gray-800">Who I Help</h3>
+                        <p class="text-base text-gray-600">I work with clients of all ages and backgrounds, with a special focus on <strong class="text-gray-700">Teens and Young Adults (14-25)</strong> navigating life's challenges and transitions.</p>
+                    </div>
+                    <div class="bento-item-3 p-8 rounded-2xl tilt-card scroll-animate stagger-2">
+                         <div class="w-14 h-14 bg-gradient-to-br from-pink-400 to-purple-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-pink-500/30"><svg class="w-7 h-7 text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8-5.6.8 4 3.9-1 5.5 5-2.6 5 2.6-1-5.5 4-3.9-5.6-.8z"/></svg></div>
+                        <h3 class="text-2xl mb-2 font-bold text-gray-800">Session Details</h3>
+                        <p class="text-gray-800 font-semibold text-lg">90 minutes • $200</p>
+                    </div>
+                    <div class="bento-item-4 p-8 rounded-2xl tilt-card scroll-animate stagger-3">
+                        <h3 class="text-2xl mb-2 font-bold text-gray-800">Format</h3>
+                        <p class="text-base text-gray-600">Most clients meet weekly via <strong class="text-gray-700">Zoom</strong> for optimal transformation and support.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN ÁREAS DE ENFOQUE (COMPLETA) -->
+        <section id="focus" class="py-20 px-6 bg-gray-50">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12 scroll-animate"><h2 class="text-4xl font-bold text-gray-800 mb-4 aurora-gradient-text">Areas of Focus</h2><p class="text-xl text-gray-600">Comprehensive support for your unique journey</p></div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-1"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Parents of Teens & Young Adults</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-2"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Family Counseling</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-3"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Relationship Counseling</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-4"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Depression</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-5"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Anxiety and Social Anxiety</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-6"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Addiction</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-7"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Trauma</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-8"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">ADHD and Autism Spectrum</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-9"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Gender and Identity</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-10"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Life Purpose</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-11"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Spiritual Growth</span></div>
+                    <div class="focus-item flex items-center gap-3 scroll-animate stagger-12"><svg class="w-5 h-5 text-purple-600 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="text-gray-700 font-medium">Self Esteem & Confidence</span></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECCIÓN SOBRE ADAM (COMPLETA) -->
+        <section id="about" class="py-24 px-6 bg-white">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <div class="scroll-animate">
+                    <img src="https://static.tildacdn.net/tild3533-6663-4633-a239-633633616164/Adam_Heyes_Bio_Pic_c.jpg" alt="Adam Douglas Heyes" class="rounded-2xl shadow-2xl w-full parallax-image" loading="lazy" />
+                </div>
+                <div class="space-y-6 scroll-animate">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Adam Douglas Heyes, M.A.</h2>
+                        <div class="h-1 w-24 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full"></div>
+                    </div>
+                    <div class="flex space-x-8 text-center my-6">
+                        <div><p class="text-4xl font-bold aurora-gradient-text counter-number" data-target="15">0</p><p class="text-sm text-gray-500">Years of Experience</p></div>
+                        <div><p class="text-4xl font-bold aurora-gradient-text counter-number" data-target="100" data-suffix="+">0</p><p class="text-sm text-gray-500">Clients Transformed</p></div>
+                        <div><p class="text-4xl font-bold aurora-gradient-text counter-number" data-target="2">0</p><p class="text-sm text-gray-500">Psychology Degrees</p></div>
+                    </div>
+                    <div class="space-y-4 text-lg text-gray-600 leading-relaxed">
+                        <p>Adam Douglas Heyes, M.A. is a heart-centered counselor and life coach with <strong>15 years of experience</strong> who integrates traditional psychology with spiritual principles to support clients to transform all aspects of their lives.</p>
+                        <p>Adam graduated <strong>Summa Cum Laude and Phi Beta Kappa</strong> with a Bachelor's degree in Psychology from UCLA's Honors Program. Adam has a <strong>Master's Degree in Spiritual Psychology</strong> from the University of Santa Monica.</p>
+                    </div>
+                    <a href="#contact" class="btn-aurora text-white px-8 py-4 text-lg rounded-full inline-flex items-center gap-2 magnetic-item">Schedule Your Free Consultation</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN SESSION INFO (COMPLETA) -->
+        <section id="session-info" class="py-20 px-6 bg-gray-50">
+            <div class="max-w-3xl mx-auto text-center scroll-animate">
+                <div class="tilt-card p-8 sm:p-12 rounded-2xl">
+                    <div class="space-y-4 text-lg text-gray-600 leading-relaxed text-left">
+                        <p><strong class="text-purple-700">Sessions are 90 Minutes for $200.</strong> Most clients prefer to meet one time per week.</p>
+                        <p>I am currently accepting a few more weekly clients for <strong class="text-gray-800">Zoom counseling.</strong></p>
+                        <p>I have limited availability to work in-person in client's homes in the <strong class="text-gray-800">Seattle area.</strong> I ask for an extra travel fee depending on distance.</p>
+                        <p>I accept payment with <strong class="text-gray-800">PayPal, Zelle, Cash or Check.</strong></p>
+                        <p class="pt-4 border-t border-gray-200 mt-6">Email Adam to schedule a free consultation or appointment at <a href="mailto:adamdheyes@gmail.com" class="text-pink-600 font-semibold hover:underline">adamdheyes@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN SPOTLIGHT INTERACTIVA (COMPLETA) -->
+        <section id="spiritual-psychology" class="py-24 px-6 text-white spotlight-section">
+            <div class="relative z-10 max-w-4xl mx-auto text-center scroll-animate">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 text-white neon-glow-title">What is Spiritual Psychology?</h2>
+                <div class="space-y-6 text-lg md:text-xl font-light leading-relaxed text-gray-300">
+                    <p>Spiritual Psychology, as defined by the University of Santa Monica, is “the study and practice of the art and science of Conscious Awakening.” It views us as Divine Beings having a human experience, with life as a “school” for soul growth, healing, and evolution. It integrates the study of the Soul back into Psychology, blending traditional methods like Gestalt, Humanistic, and Positive Psychology with a spiritual perspective.</p>
+                    <p>At its core, Spiritual Psychology teaches that each person holds the wisdom and tools to resolve challenges, find answers, and live authentically. Spiritual Counseling uses heart-centered listening, compassion, and diverse techniques to help clients release what no longer serves them, cultivate forgiveness, and manifest their fullest expression as loving, abundant, and soul-centered beings.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN TESTIMONIOS (COMPLETA) -->
+        <section id="testimonials" class="py-24 px-6 bg-white">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16 scroll-animate"><h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 aurora-gradient-text">Testimonials for Adam</h2></div>
+                <div class="relative scroll-animate">
+                    <div id="testimonial-container" class="relative min-h-[380px] md:min-h-[320px]"></div>
+                    <div class="flex justify-center gap-4 mt-8">
+                        <button id="prev-testimonial" class="rounded-full w-10 h-10 flex items-center justify-center border border-gray-300 hover:bg-gray-100 transition text-gray-500 magnetic-item"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+                        <div id="testimonial-dots" class="flex gap-2 items-center"></div>
+                        <button id="next-testimonial" class="rounded-full w-10 h-10 flex items-center justify-center border border-gray-300 hover:bg-gray-100 transition text-gray-500 magnetic-item"><svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE CONTACTO (COMPLETA) -->
+        <section id="contact" class="py-24 px-6 bg-gray-50">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12 scroll-animate"><h2 class="text-4xl md:text-5xl font-bold mb-4 text-gray-800">Get in Touch</h2><p class="text-xl text-gray-600">Schedule a free consultation or ask any questions</p></div>
+                <div id="form-wrapper" class="tilt-card rounded-2xl shadow-2xl scroll-animate">
+                    <div id="contact-form-container" class="p-8">
+                        <form id="contact-form" class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="form-input-container"><label for="name" class="block text-sm font-medium text-gray-500 mb-2">Name *</label><input id="name" type="text" required placeholder="Your name" class="form-input h-12 w-full bg-gray-100 border-gray-300 text-gray-800 rounded-lg p-3 border-b-2 border-gray-300 focus:outline-none focus:border-purple-400"/><div class="input-focus-line"></div></div>
+                                <div class="form-input-container"><label for="phone" class="block text-sm font-medium text-gray-500 mb-2">Phone</label><input id="phone" type="tel" placeholder="Your phone" class="form-input h-12 w-full bg-gray-100 border-gray-300 text-gray-800 rounded-lg p-3 border-b-2 border-gray-300 focus:outline-none focus:border-purple-400"/><div class="input-focus-line"></div></div>
+                            </div>
+                            <div class="form-input-container"><label for="email" class="block text-sm font-medium text-gray-500 mb-2">Email *</label><input id="email" type="email" required placeholder="your@email.com" class="form-input h-12 w-full bg-gray-100 border-gray-300 text-gray-800 rounded-lg p-3 border-b-2 border-gray-300 focus:outline-none focus:border-purple-400"/><div class="input-focus-line"></div></div>
+                            <div class="form-input-container"><label for="message" class="block text-sm font-medium text-gray-500 mb-2">Your Message *</label><textarea id="message" required placeholder="Tell me about what you're looking for..." class="form-input min-h-[128px] w-full bg-gray-100 border-gray-300 text-gray-800 rounded-lg p-3 border-b-2 border-gray-300 focus:outline-none focus:border-purple-400"></textarea><div class="input-focus-line"></div></div>
+                            <button type="submit" class="w-full btn-aurora text-white py-4 text-lg rounded-lg inline-flex items-center justify-center gap-2 font-semibold magnetic-item">Send Message</button>
+                        </form>
+                    </div>
+                    <div id="success-message" class="text-center py-12 p-8 hidden"><div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"><svg class="w-10 h-10 text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><h3 class="text-2xl font-bold text-gray-800 mb-2">Thank You!</h3><p class="text-gray-600">Your message has been sent. I'll get back to you soon!</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE GALERÍA (COMPLETA) -->
+        <section class="py-24 bg-white overflow-hidden">
+            <div class="gallery-container relative w-full">
+                <div class="gallery-track">
+                    <div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3131-6161-4436-a362-633134653561/-/resize/800x800/-/format/webp/Anais_Nin_-_We_Dont_.png.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild6539-3261-4138-b863-376330333337/-/resize/800x800/-/format/webp/Ram_Dass_-_The_Next_.jpg.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild6238-6532-4862-b939-386566366137/-/resize/800x800/-/format/webp/Lao_Tzu_-_When_I_let.png.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3934-6539-4335-b863-613262383834/-/resize/800x800/-/format/webp/Einstein_-_The_most_.jpg.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3262-3532-4066-b933-646639653531/-/resize/800x800/-/format/webp/The_wound_is_the_pla.png.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3936-3537-4863-b733-366361396639/-/resize/800x800/-/format/webp/Thich_Nhat_Hanh_-_Ch.jpg.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3937-3333-4662-a538-663130383634/-/resize/800x800/-/format/webp/Lao_Tzu_-_A_journey_.png.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3937-6639-4335-b730-366237306166/-/resize/800x800/-/format/webp/Vivekenananda_-_Grow.jpg.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3166-3031-4564-b530-366332353332/-/resize/800x800/-/format/webp/Carl_Jung_-_Who_look.png.webp');"></div>
+                    <div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3131-6161-4436-a362-633134653561/-/resize/800x800/-/format/webp/Anais_Nin_-_We_Dont_.png.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild6539-3261-4138-b863-376330333337/-/resize/800x800/-/format/webp/Ram_Dass_-_The_Next_.jpg.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild6238-6532-4862-b939-386566366137/-/resize/800x800/-/format/webp/Lao_Tzu_-_When_I_let.png.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3934-6539-4335-b863-613262383834/-/resize/800x800/-/format/webp/Einstein_-_The_most_.jpg.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3262-3532-4066-b933-646639653531/-/resize/800x800/-/format/webp/The_wound_is_the_pla.png.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3936-3537-4863-b733-366361396639/-/resize/800x800/-/format/webp/Thich_Nhat_Hanh_-_Ch.jpg.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3937-3333-4662-a538-633130383634/-/resize/800x800/-/format/webp/Lao_Tzu_-_A_journey_.png.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3937-6639-4335-b730-366237306166/-/resize/800x800/-/format/webp/Vivekenananda_-_Grow.jpg.webp');"></div><div class="gallery-item" style="background-image: url('https://optim.tildacdn.net/tild3166-3031-4564-b530-366332353332/-/resize/800x800/-/format/webp/Carl_Jung_-_Who_look.png.webp');"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER (COMPLETO) -->
+        <footer class="bg-gray-100 text-gray-500 py-12 px-6">
+             <div class="max-w-6xl mx-auto text-center space-y-4">
+                <p class="text-sm leading-relaxed max-w-4xl mx-auto"><strong class="text-gray-600">DISCLAIMER:</strong> Adam Douglas Heyes, M.A. is not a medical professional or licensed therapist, and does not provide medical diagnosis, medical care, treatment, or professional advice related to health, medical, or psychiatric issues. Holistic healing and spiritual counseling are considered to be an adjunct to traditional medical and psychiatric care. Seek professional medical advice before making any health related decision.</p>
+                <div class="pt-8 border-t border-gray-200"><p id="footer-year" class="text-xs"></p></div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="film-view" class="hidden">
+        <!-- ======================================= -->
+        <!-- =====   NUEVA SECCIÓN DE FILM   ===== -->
+        <!-- ======================================= -->
+        <section id="fil">
+            <div id="film-image-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-[10002] p-4 cursor-pointer hidden">
+                <img id="film-modal-img" src="" class="max-w-full max-h-full rounded-lg shadow-2xl cursor-zoom-in"/>
+                <button class="absolute top-4 right-4 text-white bg-black/50 rounded-full p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="min-h-screen bg-[var(--color-bg)]">
+                <!-- Hero Section Film -->
+                <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a2a30] text-white">
+                    <button id="back-to-main-view-btn" class="absolute top-24 left-6 z-20 btn-outline-aurora text-white px-4 py-2 rounded-full !border-white hover:!bg-white hover:!text-black transition-all duration-300">‹ Back to Main Site</button>
+                    <div class="absolute inset-0 w-full h-full" style="background: linear-gradient(180deg, #2a6a70 0%, #1a4a50 70%, #0a2a30 100%)"></div>
+                    <div class="shooting-star"></div>
+                    <div class="shooting-star"></div>
+                    <div class="relative z-10 max-w-6xl mx-auto px-6 py-24 text-center">
+                        <div class="space-y-8 fade-in is-visible">
+                             <div class="inline-block px-6 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                                <p class="text-sm font-medium text-white">Film Design & Development</p>
+                            </div>
+                            <h1 class="text-5xl md:text-7xl font-bold leading-tight text-white neon-glow-title">Adam Douglas Heyes, M.A.</h1>
+                            <div class="flex flex-col md:flex-row items-center justify-center gap-x-6 gap-y-2 text-gray-300">
+                                <a href="mailto:adamdheyes@gmail.com" class="hover:text-white transition-colors">adamdheyes@gmail.com</a>
+                                <span class="hidden md:block">|</span>
+                                <a href="tel:4254480982" class="hover:text-white transition-colors">(425) 448-0982</a>
+                            </div>
+                            <nav class="flex flex-wrap justify-center gap-x-6 gap-y-3 pt-4 text-lg">
+                                <a href="#film-services" class="hover:text-[var(--color-aqua-start)] transition-colors">Services</a>
+                                <a href="#film-about" class="hover:text-[var(--color-aqua-start)] transition-colors">Meet Adam</a>
+                                <a href="#film-pricing" class="hover:text-[var(--color-aqua-start)] transition-colors">Pricing</a>
+                                <a href="#film-work" class="hover:text-[var(--color-aqua-start)] transition-colors">Work Samples</a>
+                                <a href="#film-contact" class="hover:text-[var(--color-aqua-start)] transition-colors">Contact</a>
+                            </nav>
+                            <div class="mt-8 pt-8 border-t border-white/20 max-w-4xl text-center space-y-4 mx-auto">
+                                <h3 class="text-3xl md:text-4xl font-semibold text-white font-cinzel tracking-wider">Creative Design and Development for Independent Filmmakers</h3>
+                                <p class="text-xl text-gray-300">Offering an abundance of discounted services customized for From the Heart Productions Filmmakers</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Services Section Film -->
+                <section id="film-services" class="py-24 px-6 bg-gray-50">
+                    <div class="max-w-7xl mx-auto">
+                      <div class="text-center mb-16 fade-in">
+                        <h3 class="text-5xl md:text-6xl font-bold mb-4 aurora-gradient-text">Services</h3>
+                        <p class="text-xl text-gray-600">Click a service to see work samples.</p>
+                      </div>
+                      <div id="film-services-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Service Items will be injected here by JS -->
+                      </div>
+                    </div>
+                  </section>
+
+                <!-- Timeline Section Film -->
+                <section id="film-experience" class="relative py-24 px-6 text-white overflow-hidden" style="background: linear-gradient(180deg, #F9FAFB 0%, #0a2a30 20%, #0a2a30 80%, #FFFFFF 100%)">
+                    <div class="aurora-bg"></div>
+                    <div class="max-w-3xl mx-auto relative z-10">
+                        <div class="relative">
+                            <div class="absolute left-4 top-0 h-full w-1 bg-gradient-to-b from-cyan-400 to-purple-400 rounded-full transform "></div>
+                            <div id="timeline-milestones" class="space-y-12">
+                                <!-- Milestones will be injected here by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Section Film -->
+                <section id="film-about" class="py-24 px-6 bg-white">
+                    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                        <div class="fade-in">
+                            <div class="rounded-2xl shadow-2xl w-full h-[560px] bg-cover bg-center" style="background-image: url('https://optim.tildacdn.net/tild3133-6535-4236-b962-643035313665/-/cover/920x1120/center/center/-/format/webp/Adam_Heyes_Pic_-_Edi.jpeg.webp')"></div>
+                        </div>
+                        <div class="space-y-6 fade-in">
+                            <div>
+                                <h3 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Meet Adam</h3>
+                                <div class="h-1 w-24 bg-gradient-to-r from-[var(--color-pink)] to-[var(--color-purple)] rounded-full"></div>
+                            </div>
+                            <div class="space-y-4 text-gray-600 leading-relaxed">
+                               <p><strong>Adam Douglas Heyes, M.A.</strong> is a multidisciplinary creative and business developer, working primarily with filmmakers, artists, authors, transformational teachers, and non-profit organizations.</p>
+                               <p>Adam has worked with From the Heart Productions for over a decade, helping the organization and its clients with pitch decks, design, editing, film and event production, website development, marketing, crowdfunding course design, and fundraising. Adam manages several programs for From the Heart Clients including our LargoAI reports and our Grant Advance donor research system, and designed our new Fiscal Sponsorship Dashboard. He also designs Allyra fundraising pages and provides support to filmmakers and helps at From the Heart in many different ways.</p>
+                               <p>Adam worked extensively with two award-winning From the Heart documentaries, <em>Ground Operations</em> about sustainable farming for veterans, and <em>Take Back Your Power</em> about the dangers of smart meters. He also recently worked as Production Coordinator for the short film Adult Life Lab.</p>
+                               <p>Adam graduated Summa Cum Laude and Phi Beta Kappa from UCLA’s Honors Program with a degree in Psychology, and holds a Master’s Degree in Spiritual Psychology from the University of Santa Monica. He also runs a thriving heart-centered counseling practice in Seattle.</p>
+                               <p>You can learn more about Adam's counseling services at <a href="http://www.adamdheyes.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-purple)] hover:underline">www.adamdheyes.com</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pricing Section Film -->
+                <section id="film-pricing" class="py-24 px-6 bg-white">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="text-center mb-12 fade-in">
+                            <h3 class="text-5xl md:text-6xl font-bold text-gray-800 mb-6 aurora-gradient-text">Pricing</h3>
+                            <div class="text-lg text-gray-600 max-w-4xl mx-auto space-y-3 leading-relaxed">
+                                <p>Prices may vary depending on scope or timeline. I offer payment plans if needed.</p>
+                                <p>I accept payment via PayPal, Venmo, Zelle or Check.</p>
+                            </div>
+                        </div>
+                        <div class="pricing-table-container">
+                            <table class="pricing-table">
+                                <thead>
+                                    <tr>
+                                        <th class="w-1/2">Service</th>
+                                        <th class="text-center">From the Heart Filmmakers</th>
+                                        <th class="text-center text-[var(--color-purple)]">All Other Clients</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pricing-body">
+                                   <!-- Pricing rows will be injected here by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Work Samples Section Film -->
+                <section id="film-work" class="py-24 bg-gray-50">
+                    <div class="max-w-full mx-auto">
+                      <div class="text-center mb-12 px-6 fade-in">
+                        <h3 class="text-5xl md:text-6xl font-bold mb-6 text-gray-800 aurora-gradient-text">Work Samples</h3>
+                        <p id="work-description" class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light min-h-[60px]"></p>
+                      </div>
+              
+                      <div id="websites-links" class="text-center mb-12 max-w-7xl mx-auto px-6 hidden">
+                          <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-lg">
+                              <a href="http://forecastthefilm.com" target="_blank" rel="noopener noreferrer" class="font-semibold hover:text-[var(--color-purple)]">Forecast: The Film</a>
+                              <a href="http://transformingtrauma.info" target="_blank" rel="noopener noreferrer" class="font-semibold hover:text-[var(--color-purple)]">Transforming Trauma</a>
+                              <a href="http://bodhiaddiction.com" target="_blank" rel="noopener noreferrer" class="font-semibold hover:text-[var(--color-purple)]">Bodhi Addiction</a>
+                              <a href="http://keancoaching.com" target="_blank" rel="noopener noreferrer" class="font-semibold hover:text-[var(--color-purple)]">Kean Coaching</a>
+                          </div>
+                      </div>
+              
+                      <div id="category-buttons" class="flex flex-wrap justify-center gap-3 mb-16 max-w-7xl mx-auto px-6 fade-in">
+                        <!-- Category buttons will be injected by JS -->
+                      </div>
+                      
+                      <div id="work-gallery">
+                        <!-- Gallery or links will be injected here by JS -->
+                      </div>
+                    </div>
+                  </section>
+
+                <!-- Contact Section Film -->
+                <section id="film-contact" class="py-24 px-6 bg-gray-50">
+                    <div class="max-w-4xl mx-auto">
+                      <div class="text-center mb-12 fade-in">
+                        <h3 class="text-4xl md:text-5xl font-bold mb-4 text-gray-800">Let's Connect!</h3>
+                        <div class="text-lg text-gray-600 max-w-3xl mx-auto space-y-2 leading-relaxed">
+                            <p>Fill out this form and I'll get back to you as soon as I can!</p>
+                            <p>I'm happy to schedule a free consultation to discuss your project and my services.</p>
+                            <p>You can also email me at <a href="mailto:adamdheyes@gmail.com" class="font-semibold text-[var(--color-purple)] hover:underline">adamdheyes@gmail.com</a> or call <a href="tel:4254480982" class="font-semibold text-[var(--color-purple)] hover:underline">(425) 448-0982</a>.</p>
+                        </div>
+                      </div>
+                      <div class="rounded-2xl shadow-2xl p-8 fade-in" style="background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px 0 rgba(100, 108, 127, 0.1)">
+                            <div id="film-contact-form-wrapper">
+                                <form id="film-contact-form" class="space-y-6">
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="film-name" class="block text-sm font-medium text-gray-500 mb-2">Name *</label>
+                                        <input id="film-name" type="text" required placeholder="Your name" class="h-12 w-full bg-gray-100/80 text-gray-800 rounded-lg p-3 border-2 border-transparent focus:outline-none focus:border-[var(--color-purple)] transition-colors"/>
+                                    </div>
+                                    <div>
+                                        <label for="film-email" class="block text-sm font-medium text-gray-500 mb-2">Email *</label>
+                                        <input id="film-email" type="email" required placeholder="your@email.com" class="h-12 w-full bg-gray-100/80 text-gray-800 rounded-lg p-3 border-2 border-transparent focus:outline-none focus:border-[var(--color-purple)] transition-colors"/>
+                                    </div>
+                                    </div>
+                                    <div>
+                                    <label for="film-message" class="block text-sm font-medium text-gray-500 mb-2">Your Message *</label>
+                                    <textarea id="film-message" required placeholder="Tell us about your project..." class="min-h-[128px] w-full bg-gray-100/80 text-gray-800 rounded-lg p-3 border-2 border-transparent focus:outline-none focus:border-[var(--color-purple)] transition-colors"></textarea>
+                                    </div>
+                                    <button type="submit" class="w-full btn-aurora text-white py-4 text-lg rounded-lg font-semibold">Send Message</button>
+                                </form>
+                            </div>
+                            <div id="film-thank-you-message" class="text-center py-12 hidden">
+                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg class="w-10 h-10 text-green-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                                </div>
+                                <h4 class="text-2xl font-bold text-gray-800 mb-2">Thank You!</h4>
+                                <p class="text-gray-600">Your message has been sent. We'll get back to you soon!</p>
+                            </div>
+                      </div>
+                    </div>
+                  </section>
+            </div>
+        </section>
+    </div>
+    </main>
+    
+    <!-- CHAT BUBBLE & WINDOW (COMPLETO) -->
+    <div id="chat-bubble" class="fixed bottom-8 right-8 btn-aurora text-white px-5 py-3 rounded-full cursor-pointer shadow-lg z-50 group magnetic-item"><p class="font-medium text-center text-sm">Questions? <span class="font-semibold group-hover:text-white transition">Adam AI</span></p></div>
+    <div id="chat-window" class="fixed bottom-28 right-8 w-full max-w-sm h-[80vh] max-h-[700px] bg-white border border-gray-200 rounded-2xl shadow-2xl z-50 md:max-w-md">
+        <div class="bg-gray-100 text-gray-800 p-4 rounded-t-2xl flex justify-between items-center shadow-md">
+             <div class="flex-1"></div><div class="flex-1 flex justify-center"><img src="https://static.tildacdn.net/tild3261-3433-4132-b633-646135393839/Adam_Heyes_Logo_Tran.png" alt="Adam AI Logo" class="h-10"></div>
+             <div class="flex-1 flex justify-end"><button id="close-chat" class="text-gray-700 text-2xl font-bold leading-none hover:text-gray-900">&times;</button></div>
+        </div>
+        <div id="language-selection" class="flex flex-col items-center justify-center h-full p-4 bg-gray-50"><p class="text-gray-600 font-medium mb-4 text-center">Please select a language:</p><div class="grid grid-cols-2 gap-4"><button id="select-en" class="flex flex-col items-center gap-2 p-4 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition border"><img src="https://flagcdn.com/us.svg" alt="USA Flag" class="w-12 h-8 object-cover rounded"><span class="font-semibold text-gray-700">English</span></button><button id="select-es" class="flex flex-col items-center gap-2 p-4 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition border"><img src="https://flagcdn.com/es.svg" alt="Spain Flag" class="w-12 h-8 object-cover rounded"><span class="font-semibold text-gray-700">Español</span></button><button id="select-fr" class="flex flex-col items-center gap-2 p-4 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition border"><img src="https://flagcdn.com/fr.svg" alt="France Flag" class="w-12 h-8 object-cover rounded"><span class="font-semibold text-gray-700">Français</span></button><button id="select-pt" class="flex flex-col items-center gap-2 p-4 bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition border"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg" alt="Brazil Flag" class="w-12 h-8 object-cover rounded"><span class="font-semibold text-gray-700">Português</span></button></div></div>
+        <div id="chat-view" class="hidden h-full flex-col"><div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50"></div><div id="suggestion-container" class="p-4 border-t border-gray-200 bg-white rounded-b-2xl overflow-y-auto" style="flex-grow: 0; flex-shrink: 0; flex-basis: 45%;"></div></div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-[10001] items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden">
+        <div id="modal-content" class="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-8 m-auto">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">Campus Virtual</h2>
+                <p class="text-gray-500">Inicio de sesión para estudiantes</p>
+            </div>
+            <form id="login-form" class="space-y-6">
+                <div class="form-input-container">
+                    <label for="username" class="block text-sm font-medium text-gray-500 mb-2">Usuario</label>
+                    <input id="username" type="text" required placeholder="Tu nombre de usuario" class="form-input h-12 w-full bg-gray-100 border-gray-300 text-gray-800 rounded-lg p-3 border-b-2 border-gray-300 focus:outline-none focus:border-purple-400"/>
+                    <div class="input-focus-line"></div>
+                </div>
+                <div class="form-input-container">
+                    <label for="password" class="block text-sm font-medium text-gray-500 mb-2">Contraseña</label>
+                    <input id="password" type="password" required placeholder="••••••••" class="form-input h-12 w-full bg-gray-100 border-gray-300 text-gray-800 rounded-lg p-3 border-b-2 border-gray-300 focus:outline-none focus:border-purple-400"/>
+                    <div class="input-focus-line"></div>
+                </div>
+                <button type="submit" class="w-full btn-aurora text-white py-3 text-lg rounded-lg inline-flex items-center justify-center gap-2 font-semibold magnetic-item">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- LÓGICA DE EFECTOS VISUALES (COMPLETA) ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const progressBar = document.getElementById('scroll-progress-bar');
+        const header = document.getElementById('main-nav');
+        const animatedElements = document.querySelectorAll('.scroll-animate');
+        const spotlightSection = document.querySelector('.spotlight-section');
+        const parallaxImage = document.querySelector('.parallax-image');
+        const heroBackground = document.getElementById('hero-background');
+        const cursorLightBlob = document.getElementById('cursor-light-blob');
+        let mouseX = 0, mouseY = 0, outlineX = 0, outlineY = 0, blobX = 0, blobY = 0;
+
+        window.addEventListener('mousemove', e => { 
+            mouseX = e.clientX; 
+            mouseY = e.clientY; 
+            cursorDot.style.transform = `translate(${mouseX-4}px, ${mouseY-4}px)`; 
+        });
+        const animateCursor = () => { 
+            let dx = mouseX - outlineX; let dy = mouseY - outlineY; 
+            outlineX += dx * 0.1; outlineY += dy * 0.1; 
+            cursorOutline.style.transform = `translate(${outlineX-20}px, ${outlineY-20}px)`; 
+            
+            let bdx = mouseX - blobX; let bdy = mouseY - blobY;
+            blobX += bdx * 0.05; blobY += bdy * 0.05;
+            if(cursorLightBlob) cursorLightBlob.style.transform = `translate(${blobX-250}px, ${blobY-250}px)`;
+
+            requestAnimationFrame(animateCursor); 
+        }
+        animateCursor();
+
+        document.querySelectorAll('.magnetic-item').forEach(el => {
+            el.addEventListener('mousemove', e => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                el.style.transform = `translate(${x*0.2}px, ${y*0.2}px)`;
+                cursorOutline.style.transform = `translate(${mouseX-20}px, ${mouseY-20}px) scale(1.5)`;
+                cursorOutline.style.backgroundColor = 'rgba(0, 217, 200, 0.3)';
+            });
+            el.addEventListener('mouseleave', () => { el.style.transform = ''; cursorOutline.style.transform = `translate(${outlineX-20}px, ${outlineY-20}px) scale(1)`; cursorOutline.style.backgroundColor = 'rgba(0, 217, 200, 0.2)'; });
+        });
+
+        const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1 });
+        animatedElements.forEach(el => observer.observe(el));
+        
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => fadeInObserver.observe(el));
+
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            progressBar.style.width = `${(scrollTop / docHeight) * 100}%`;
+            if (scrollTop > 50) header.classList.add('shadow-md', 'border-gray-200'); else header.classList.remove('shadow-md', 'border-gray-200');
+            if (parallaxImage) { const rect = parallaxImage.getBoundingClientRect(); parallaxImage.style.transform = `translateY(${(rect.top - window.innerHeight) * -0.1}px)`; }
+            
+            if (heroBackground) {
+                const fadeUntil = window.innerHeight * 0.8;
+                let opacity = Math.max(0, 1 - (scrollTop / fadeUntil));
+                heroBackground.style.opacity = opacity;
+            }
+        });
+
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left, y = e.clientY - rect.top;
+                const { width, height } = rect;
+                const rotateX = (y / height - 0.5) * -15;
+                const rotateY = (x / width - 0.5) * 15;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+            });
+            card.addEventListener('mouseleave', () => card.style.transform = '');
+        });
+
+        function animateText(selector, text, delay = 50) {
+            const element = document.querySelector(selector);
+            if (!element) return;
+            element.textContent = '';
+            let i = 0;
+            const interval = setInterval(() => { if (i < text.length) element.textContent += text[i++]; else clearInterval(interval); }, delay);
+        }
+        animateText('#hero-headline', 'Adam Douglas Heyes, M.A.');
+
+        const counterObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const animate = () => {
+                        const target = +counter.getAttribute('data-target'), count = +counter.innerText.replace('+', '');
+                        const inc = target / 200;
+                        if(count < target) { counter.innerText = Math.ceil(count + inc); setTimeout(animate, 10); } else { counter.innerText = target + (counter.dataset.suffix || ''); }
+                    }
+                    animate();
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.counter-number').forEach(c => counterObserver.observe(c));
+
+        if (spotlightSection) { 
+            spotlightSection.addEventListener('mousemove', e => { 
+                const rect = spotlightSection.getBoundingClientRect();
+                const spotlight = spotlightSection.querySelector('.spotlight');
+                if(spotlight) spotlight.style.transform = `translate(${e.clientX - rect.left - 200}px, ${e.clientY - rect.top - 200}px)`;
+            });
+        }
+        
+        document.querySelectorAll('.btn-aurora').forEach(b => { b.addEventListener('click', e => { for (let i = 0; i < 20; i++) createParticle(e.clientX, e.clientY); }); });
+        function createParticle(x, y) { const p = document.createElement('div'); p.classList.add('particle'); document.body.appendChild(p); const size = Math.random() * 6 + 4; p.style.width = `${size}px`; p.style.height = `${size}px`; const destX = x + (Math.random() - 0.5) * 100, destY = y + (Math.random() - 0.5) * 100; const colors = ['var(--color-aqua-start)', 'var(--color-aqua-end)', 'var(--color-cyan)']; p.style.background = colors[Math.floor(Math.random() * colors.length)]; const anim = p.animate([ { transform: `translate(${x - size/2}px, ${y - size/2}px)`, opacity: 1 }, { transform: `translate(${destX}px, ${destY}px)`, opacity: 0 } ], { duration: Math.random() * 1000 + 500, easing: 'ease-out' }); anim.onfinish = () => p.remove(); }
+
+        const testimonials = [ { name: "Samuel", text: "I have worked with dozens of healers and teachers of all different modalities and philosophies over the years and I can honestly say that the work I did with Adam was in a class by itself. He was able to read me intuitively and tell me specific things about my past and what I was encountering in my present reality that I have never told anyone about. I was truly amazed by the level of presence he demonstrated throughout my entire process. He not only has tremendous knowledge and expertise in the field, but has an incredible depth of compassion, loving, kindness, and empathy. I felt like I was genuinely cared for as a person, not only as a client. I just completed my 3rd session with Adam and I have already seen a dramatic tangible difference in all aspects of my life. He was able to help me find peace and forgiveness with an extremely traumatic event from my childhood, which has helped me to be more present for my family and life in general. I have been eating healthier, exercising and meditating regularly as part of one of the commitments I made during our session. I can honestly say I feel better than I ever have in my life within a month of working with Adam. I cannot recommend him highly enough!" }, { name: "Masha", text: "LIFE CHANGING experience! Before I met Adam, I would criticize my appearance, my knowledge and think very negatively about myself. I needed help with my self-esteem, I was looking for support and motivation and someone who can help me to start believing in myself and I found Adam! He truly changed my life! He brought to light issues that I had no idea existed and helped me let them go. Adam asked questions, provided spiritual counseling, and did energy healing on me. He was very caring and loving and I could feel his warmth and positive energy. He is very intuitive and gave me so much sensational advice. Every session I would discover something new about myself. In a few months working with Adam I lost weight, stopped eating meat, and reduced the amount of gluten I eat. I started to listen to my intuition, trust myself, and I realized how beautiful I am. I connected to my spirit! Thank you so much Adam, you are powerful, I am grateful forever! I highly highly recommend Adam. If you're looking for guidance, look no further!" }, { name: "Gulya", text: "I want to thank Adam for the session we did together over the phone. Just by looking at a photo of me, he was able to tell me everything that I was afraid to admit to myself. He was able to see into the depths of my soul and see things that I have never told anyone. He was able to look into my chakras, emotions, and physical body and tell me how I could work with them. He knew that I used to love to sing and that I had stopped, which inspired me to start singing again. He took time to help me understand the issues I was seeking help for and explain what was on inside me, and provided recommendations on how to address these issues and live a happier life. Thank you Adam! I recommend Adam to anyone who is dealing with confusion or working through issues, who wants to hear their inner guidance more clearly, and who wants to live a happier and more peaceful life!" } ];
+        let activeTestimonial = 0;
+        const container = document.getElementById('testimonial-container'), dotsContainer = document.getElementById('testimonial-dots');
+        function renderTestimonials() { if (!container || !dotsContainer) return; container.innerHTML = ''; dotsContainer.innerHTML = ''; testimonials.forEach((t, i) => { const slide = document.createElement('div'); slide.className = `testimonial-slide absolute top-0 left-0 w-full tilt-card bg-purple-50 p-6 md:p-8 rounded-2xl border-purple-200`; if (i === activeTestimonial) slide.classList.add('active'); slide.innerHTML = `<p class="text-sm md:text-base text-gray-600 leading-relaxed mb-4 text-center italic">"${t.text}"</p><div class="text-center"><p class="text-md md:text-lg font-bold text-purple-700">- ${t.name}</p></div>`; container.appendChild(slide); const dot = document.createElement('button'); dot.className = 'testimonial-dot w-3 h-3 rounded-full bg-gray-300'; if (i === activeTestimonial) dot.classList.add('active'); dot.addEventListener('click', () => { activeTestimonial = i; renderTestimonials(); }); dotsContainer.appendChild(dot); }); }
+        function nextTestimonial() { activeTestimonial = (activeTestimonial + 1) % testimonials.length; renderTestimonials(); }
+        document.getElementById('next-testimonial')?.addEventListener('click', nextTestimonial);
+        document.getElementById('prev-testimonial')?.addEventListener('click', () => { activeTestimonial = (activeTestimonial - 1 + testimonials.length) % testimonials.length; renderTestimonials(); });
+        setInterval(nextTestimonial, 8000); renderTestimonials();
+        
+        const contactForm = document.getElementById('contact-form'), formContainer = document.getElementById('contact-form-container'), successMessage = document.getElementById('success-message');
+        contactForm?.addEventListener('submit', function(e) { e.preventDefault(); formContainer.classList.add('hidden'); successMessage.classList.remove('hidden'); setTimeout(() => { successMessage.classList.add('hidden'); formContainer.classList.remove('hidden'); contactForm.reset(); }, 5000); });
+        
+        const footerYear = document.getElementById('footer-year');
+        if (footerYear) footerYear.textContent = `© ${new Date().getFullYear()} Adam Douglas Heyes, M.A. All rights reserved.`;
+
+        const chatBubble = document.getElementById('chat-bubble'), chatWindow = document.getElementById('chat-window'), closeChatBtn = document.getElementById('close-chat'), chatMessages = document.getElementById('chat-messages'), suggestionContainer = document.getElementById('suggestion-container'), langSelection = document.getElementById('language-selection'), chatView = document.getElementById('chat-view');
+        const selectEsBtn = document.getElementById('select-es'), selectEnBtn = document.getElementById('select-en'), selectFrBtn = document.getElementById('select-fr'), selectPtBtn = document.getElementById('select-pt');
+        let currentLang = 'en';
+        const content = {
+                es: {
+                    faqs: [
+                        { question: "¿Qué tipo de servicios ofreces?", answer: "Adam ofrece Consejería Espiritual y Coaching de Vida. Su método es único ya que combina técnicas psicológicas probadas con una profunda sabiduría espiritual. Este enfoque integrado está diseñado para ayudarte no solo a afrontar los desafíos, sino a transformarlos en oportunidades de crecimiento, sanación y creación de una vida más plena." },
+                        { question: "¿Cuáles son los detalles de la sesión?", answer: "Cada sesión es un bloque de tiempo dedicado de 90 minutos, con un precio de $200. Para asegurar un progreso y apoyo constantes, la mayoría de los clientes encuentran que reunirse una vez por semana es el ritmo más efectivo. La mayoría de las sesiones se realizan convenientemente en línea a través de Zoom." },
+                        { question: "¿En quién te especializas?", answer: "Adam apoya a una amplia gama de personas, incluyendo adultos, parejas y familias. Tiene una experiencia y un enfoque particular en guiar a adolescentes y adultos jóvenes (de 14 a 25 años) a través de las complejidades de encontrar su identidad, propósito y confianza durante las transiciones cruciales de la vida." },
+                        { question: "¿Cómo puedo programar una consulta?", answer: 'Programar tu consulta gratuita es sencillo. La mejor manera es enviar un correo electrónico directamente a Adam a <a href="mailto:adamdheyes@gmail.com" class="text-pink-600 font-semibold hover:underline">adamdheyes@gmail.com</a>. También puedes completar el formulario "Get in Touch" en este sitio web, y él se pondrá en contacto contigo para concertar una cita.' }
+                    ],
+                    topics: [
+                        { question: "¿Qué es la Psicología Espiritual?", answer: "La Psicología Espiritual es un enfoque que une los principios de la psicología tradicional con la sabiduría espiritual. No se trata solo de la mente, sino de la persona en su totalidad: mente, cuerpo y espíritu. El objetivo es sanar a un nivel más profundo, ayudándote a conectar con tu verdadero yo, encontrar un propósito significativo y vivir una vida más auténtica y llena de alegría, yendo más allá de solo manejar los síntomas." },
+                        { question: "¿Cómo funciona la 'sanación profunda'?", answer: "La sanación profunda va más allá de hablar de los problemas. Es un proceso para liberar las cargas emocionales y los patrones de pensamiento negativos que pueden estar estancados en tu sistema desde hace años. Adam utiliza técnicas para ayudarte a acceder a estas 'heridas' en un entorno seguro, entender sus origenes y transformarlas. Como dice Rumi, 'la herida es el lugar por donde entra la Luz'. Al afrontar estas áreas, creas espacio para que entre más paz, claridad y energía positiva en tu vida." },
+                        { question: "¿Cuál es la diferencia con la terapia tradicional?", answer: "Mientras que la terapia tradicional se enfoca a menudo en diagnosticar y tratar síntomas desde una perspectiva clínica, el enfoque de Adam es más holístico. Considera tus desafíos de vida dentro del contexto más amplio de tu viaje espiritual. Su objetivo no es solo aliviar el sufrimiento, sino también ayudarte a despertar a tu máximo potencial y a usar los desafíos de la vida como catalizadores para el crecimiento espiritual y el autodescubrimiento." },
+                        { question: "Manejo de la Ansiedad", answer: "La ansiedad a menudo surge de pensamientos enfocados en el futuro y un sistema nervioso hiperactivo. El enfoque de Adam combina mindfulness para anclarte en el presente, técnicas de respiración para calmar la respuesta física del cuerpo, y la exploración de las raíces de tus miedos. El objetivo es transformar la ansiedad de un obstáculo paralizante a una señal que te guía hacia áreas de tu vida que necesitan atención y sanación." },
+                        { question: "Superación de la Depresión", answer: "La depresión puede sentirse como una nube pesada que bloquea la luz. Más allá de los enfoques convencionales, la consejería espiritual explora el vacío existencial o la desconexión del alma que a menudo subyace a la depresión. El trabajo se centra en reconectar con tu propósito, encontrar significado incluso en el dolor, y cultivar la autocompasión para encender de nuevo tu luz interior." },
+                        { question: "Sanación de Trauma", answer: "El trauma no es solo el evento que ocurrió, sino la herida que queda en tu interior. El enfoque de Adam es suave y compasivo, creando un espacio seguro para procesar estas experiencias sin volver a traumatizarte. Utilizando técnicas somáticas y espirituales, te ayuda a liberar la energía atrapada del trauma de tu cuerpo y mente, permitiéndote pasar de ser un sobreviviente a prosperar." },
+                        { question: "Descubrimiento del Propósito de Vida", answer: "Sentirse perdido o sin dirección es una señal de que tu alma anhela un propósito. Adam te guía en un viaje de autodescubrimiento para escuchar tu voz interior y descifrar los mensajes de tu corazón. A través de la exploración de tus pasiones, talentos y valores, te ayuda a alinear tu vida con una misión que te inspire y te llene de energía cada día." },
+                        { question: "Mejora de la Autoestima", answer: "La baja autoestima a menudo proviene de una voz crítica interna y de creencias negativas arraigadas en la infancia. El trabajo consiste en desenmascarar a este crítico interno, desafiar esas viejas historias y reemplazarlas con una base de amor propio y autoaceptación. Aprenderás a verte a ti mismo a través de los ojos de la compasión, reconociendo tu valor inherente." },
+                        { question: "Navegando Relaciones (Pareja)", answer: "Las relaciones de pareja son uno de los mayores catalizadores para el crecimiento espiritual. El enfoque de Adam va más allá de la simple resolución de conflictos. Se centra en la comunicación consciente, la sanación de heridas de apego y el uso de la relación como un espejo para el autoconocimiento. El objetivo es crear una asociación basada en la autenticidad, el respeto mutuo y un profundo vínculo espiritual." },
+                        { question: "Navegando Relaciones (Familia)", answer: "Las dinámicas familiares a menudo contienen patrones y heridas intergeneracionales. Sanar estas relaciones implica comprender estos patrones, establecer límites saludables y aprender a interactuar desde un lugar de amor y compasión, en lugar de reaccionar desde viejas heridas. Se trata de encontrar la paz, ya sea a través de la reconciliación o de una aceptación compasiva." },
+                        { question: "Mindfulness y Presencia", answer: "El mindfulness es la práctica de estar plenamente presente en el momento, sin juicio. Es una herramienta poderosa para reducir el estrés y la ansiedad, ya que te saca del ciclo de preocuparte por el futuro o rumiar sobre el pasado. Adam enseña técnicas simples pero profundas para integrar la presencia en tu vida diaria, permitiéndote experimentar más paz y claridad." },
+                        { question: "Gestión del Estrés", answer: "El estrés crónico afecta la mente, el cuerpo y el espíritu. El enfoque de Adam para la gestión del estrés es holístico. No solo se enfoca en técnicas de relajación, sino que también te ayuda a identificar y abordar las fuentes subyacentes de estrés en tu vida, ya sean creencias internas, dinámicas de relación o elecciones de estilo de vida. El objetivo es construir resiliencia y crear un estilo de vida más equilibrado y sostenible." },
+                        { question: "El Poder de la Vulnerabilidad", answer: "A menudo se nos enseña a ver la vulnerabilidad como una debilidad. Sin embargo, en el trabajo espiritual, es una de nuestras mayores fortalezas. Es la puerta de entrada a la conexión auténtica, la intimidad y el coraje. Adam crea un espacio seguro donde puedes explorar y abrazar tu vulnerabilidad, permitiéndote mostrarte plenamente en tu vida y en tus relaciones." },
+                        { question: "Trabajo con la Sombra Interior", answer: "La 'sombra' son las partes de nosotros mismos que hemos reprimido o negado porque las consideramos inaceptables. El trabajo con la sombra implica traer estas partes a la luz con compasión para integrarlas. Este proceso es transformador, ya que libera una inmensa cantidad de energía que antes se usaba para mantener estas partes ocultas, lo que conduce a una mayor totalidad y autoaceptación." },
+                        { question: "Superando Creencias Limitantes", answer: "Las creencias limitantes son las historias que nos contamos a nosotros mismos sobre lo que es posible ('no soy lo suficientemente bueno', 'nunca tendré éxito'). A menudo operan a nivel subconsciente. Adam te ayuda a identificar estas creencias, a comprender sus origenes y a reemplazarlas conscientemente con creencias empoderadoras que se alineen con tu verdadero potencial." },
+                        { question: "Intuición y Guía Interior", answer: "Todos tenemos una voz interior sabia, pero a menudo se ve ahogada por el ruido de la mente y el mundo exterior. El trabajo de Adam implica ayudarte a calmar ese ruido para que puedas escuchar y confiar en tu propia intuición. Aprender a seguir esta guía interna es clave para tomar decisiones alineadas y navegar la vida con más facilidad y confianza." },
+                        { question: "El Perdón (a otros y a uno mismo)", answer: "El perdón no se trata de condonar una acción dañina; se trata de liberarte del peso del rencor y el resentimiento que te mantiene atado al pasado. Es un acto de autoliberaón. Adam guía un proceso compasivo para ayudarte a procesar el dolor y elegir el perdón, tanto para los demás como para ti mismo, como un camino hacia la paz interior." },
+                        { question: "Transiciones de Vida", answer: "Los grandes cambios en la vida (carrera, relaciones, mudanzas) pueden ser desorientadores. Actúan como puntos de inflexión que nos invitan a soltar lo viejo y abrazar lo nuevo. El coaching de Adam te apoya en la navegación de estas transiciones, viéndolas no como crisis, sino como oportunidades para un profundo crecimiento personal y una realineación con el propósito de tu alma." },
+                        { question: "Conexión Cuerpo-Mente", answer: "Tu cuerpo y tu mente no están separados. Las emociones no procesadas y el estrés mental pueden manifestarse como dolencias físicas. Adam te enseña a escuchar la sabiduría de tu cuerpo y a comprender cómo tus pensamientos y sentimientos impactan tu bienestar físico. Este enfoque holístico es clave para lograr una salud radiante en todos los niveles." },
+                        { question: "Lidiando con el Duelo y la Pérdida", answer: "El duelo es una respuesta natural a la pérdida, y no hay una 'manera correcta' de hacerlo. El enfoque de Adam es honrar tu proceso único de duelo, proporcionando un espacio compasivo para sentir y procesar el dolor sin juicio. Te ayuda a encontrar formas de honrar a quien o lo que has perdido, mientras aprendes a navegar la vida en tu nueva realidad." },
+                        { question: "Creatividad y Espiritualidad", answer: "La creatividad es una fuerza vital y una expresión natural del espíritu. Si te sientes bloqueado creativamente, a menudo es un signo de un bloqueo espiritual más profundo. Adam te ayuda a despejar los miedos y las dudas que sofocan tu expresión creativa, permitiendo que tu alma se exprese más libremente en todas las áreas de tu vida." },
+                        { question: "Estableciendo Límites Saludables", answer: "Establecer límites es un acto fundamental de amor propio. Se trata de honrar tus propias necesidades y energía. Si te resulta difícil decir 'no' o a menudo te sientes agotado por los demás, Adam puede ayudarte a identificar dónde necesitas límites, a comunicarlos de manera efectiva y a superar la culpa que a menudo los acompaña." },
+                        { question: "Manifestación y Ley de Atracción", answer: "La manifestación es más que solo pensamiento positivo. Es el arte de alinear tu energía, pensamientos, sentimientos y acciones con lo que deseas co-crear en tu vida. El enfoque de Adam te enseña a ir más allá de las simples afirmaciones, ayudándote a despejar los bloqueos subconscientes que sabotean tus esfuerzos y a convertirte en un imán energético para tus deseos." }
+                    ]
+                },
+                en: {
+                    faqs: [
+                        { question: "What kind of services do you offer?", answer: "Adam provides Spiritual Counseling and Life Coaching. His method is unique as it blends proven psychological techniques with deep spiritual wisdom. This integrated approach is designed to help you not just cope with challenges, but to transform them into opportunities for growth, healing, and creating a more fulfilling life." },
+                        { question: "What are the session details?", answer: "Each session is a dedicated 90-minute block of time, priced at $200. To ensure consistent progress and support, most clients find that meeting once a week is the most effective rhythm. The majority of sessions are conveniently held online via Zoom." },
+                        { question: "Who do you specialize in helping?", answer: "Adam supports a wide range of individuals, including adults, couples, and families. He has a particular expertise and focus on guiding teens and young adults (ages 14-25) through the complexities of finding their identity, purpose, and confidence during life's crucial transitions." },
+                        { question: "How can I schedule a consultation?", answer: 'Scheduling your free consultation is simple. The best way is to send an email directly to Adam at <a href="mailto:adamdheyes@gmail.com" class="text-pink-600 font-semibold hover:underline">adamdheyes@gmail.com</a>. You can also fill out the "Get in Touch" form on this website, and he will get back to you to arrange a time.' }
+                    ],
+                    topics: [
+                         { question: "What is Spiritual Psychology?", answer: "Spiritual Psychology is an approach that unites the principles of traditional psychology with spiritual wisdom. It's not just about the mind, but about the whole person—mind, body, and spirit. The goal is to heal on a deeper level, helping you connect with your true self, find meaningful purpose, and live a more authentic, joyful life, moving beyond just managing symptoms." },
+                        { question: "How does 'deep healing' work?", answer: "Deep healing goes beyond just talking about problems. It is a process of releasing emotional burdens and negative thought patterns that may have been stuck in your system for years. Adam uses techniques to help you access these 'wounds' in a safe environment, understand their origins, and transform them. As Rumi says, 'the wound is the place where the Light enters you.' By addressing these areas, you create space for more peace, clarity, and positive energy to enter your life." },
+                        { question: "What's the difference from traditional therapy?", answer: "While traditional therapy often focuses on diagnosing and treating symptoms from a clinical perspective, Adam's approach is more holistic. He views your life challenges within the broader context of your spiritual journey. The aim is not only to alleviate suffering but also to help you awaken to your fullest potential and use life's challenges as catalysts for spiritual growth and self-discovery." },
+                        { question: "Managing Anxiety", answer: "Anxiety often stems from future-focused thoughts and an overactive nervous system. Adam's approach combines mindfulness to ground you in the present, breathwork to calm the body's physical response, and exploration of the root of your fears. The goal is to transform anxiety from a paralyzing obstacle into a signal that guides you toward areas of your life needing attention and healing." },
+                        { question: "Overcoming Depression", answer: "Depression can feel like a heavy cloud blocking the light. Beyond conventional approaches, spiritual counseling explores the existential emptiness or soul-level disconnection that often underlies depression. The work focuses on reconnecting with your purpose, finding meaning even in pain, and cultivating self-compassion to reignite your inner light." },
+                        { question: "Healing Trauma", answer: "Trauma is not just the event that happened, but the wound left inside. Adam's approach is gentle and compassionate, creating a safe space to process these experiences without re-traumatizing. Using somatic and spiritual techniques, he helps you release the trapped energy of trauma from your body and mind, allowing you to move from surviving to thriving." },
+                        { question: "Discovering Life Purpose", answer: "Feeling lost or aimless is a sign that your soul is longing for purpose. Adam guides you on a journey of self-discovery to listen to your inner voice and decipher the messages of your heart. Through exploring your passions, talents, and values, he helps you align your life with a mission that inspires and energizes you daily." },
+                        { question: "Improving Self-Esteem", answer: "Low self-esteem often comes from an inner critic and negative beliefs rooted in childhood. The work involves unmasking this inner critic, challenging those old stories, and replacing them with a foundation of self-love and self-acceptance. You will learn to see yourself through the eyes of compassion, recognizing your inherent worth." },
+                        { question: "Navigating Relationships (Couples)", answer: "Partnerships are one of the greatest catalysts for spiritual growth. Adam's approach goes beyond simple conflict resolution. It focuses on conscious communication, healing attachment wounds, and using the relationship as a mirror for self-awareness. The goal is to create a partnership based on authenticity, mutual respect, and a deep spiritual bond." },
+                        { question: "Navigating Relationships (Family)", answer: "Family dynamics often carry intergenerational patterns and wounds. Healing these relationships involves understanding these patterns, setting healthy boundaries, and learning to engage from a place of love and compassion, rather than reacting from old hurts. It's about finding peace, whether through reconciliation or compassionate acceptance." },
+                        { question: "Mindfulness and Presence", answer: "Mindfulness is the practice of being fully present in the moment, without judgment. It is a powerful tool for reducing stress and anxiety, as it takes you out of the cycle of worrying about the future or ruminating on the past. Adam teaches simple yet profound techniques to integrate presence into your daily life, allowing you to experience more peace and clarity." },
+                        { question: "Stress Management", answer: "Chronic stress impacts the mind, body, and spirit. Adam's approach to stress management is holistic. It doesn't just focus on relaxation techniques, but also helps you identify and address the underlying sources of stress in your life, whether they are internal beliefs, relationship dynamics, or lifestyle choices. The goal is to build resilience and create a more balanced and sustainable way of living." },
+                        { question: "The Power of Vulnerability", answer: "We are often taught to see vulnerability as a weakness. In spiritual work, however, it is one of our greatest strengths. It is the gateway to authentic connection, intimacy, and courage. Adam creates a safe space where you can explore and embrace your vulnerability, allowing you to show up more fully in your life and relationships." },
+                        { question: "Inner Shadow Work", answer: "The 'shadow' consists of the parts of ourselves that we have repressed or denied because we deem them unacceptable. Shadow work involves bringing these parts into the light with compassion in order to integrate them. This process is transformative, as it frees up an immense amount of energy previously used to keep these parts hidden, leading to greater wholeness and self-acceptance." },
+                        { question: "Overcoming Limiting Beliefs", answer: "Limiting beliefs are the stories we tell ourselves about what is possible ('I'm not good enough,' 'I'll never succeed'). They often operate on a subconscious level. Adam helps you identify these beliefs, understand their origins, and consciously replace them with empowering beliefs that align with your true potential." },
+                        { question: "Intuition and Inner Guidance", answer: "Everyone has a wise inner voice, but it is often drowned out by the noise of the mind and the external world. Adam's work involves helping you quiet that noise so you can hear and trust your own intuition. Learning to follow this inner guidance is key to making aligned decisions and navigating life with more ease and confidence." },
+                        { question: "Forgiveness (of others and self)", answer: "Forgiveness is not about condoning a hurtful action; it is about freeing yourself from the weight of anger and resentment that keeps you tied to the past. It is an act of self-liberation. Adam guides a compassionate process to help you process the hurt and choose forgiveness—for others and for yourself—as a path to inner peace." },
+                        { question: "Life Transitions", answer: "Major life changes—career, relationships, moves—can be disorienting. They act as turning points that invite us to let go of the old and embrace the new. Adam's coaching supports you in navigating these transitions, viewing them not as crises, but as opportunities for profound personal growth and realignment with your soul's purpose." },
+                        { question: "Mind-Body Connection", answer: "Your body and mind are not separate. Unprocessed emotions and mental stress can manifest as physical ailments. Adam teaches you to listen to the wisdom of your body and understand how your thoughts and feelings impact your physical well-being. This holistic approach is key to achieving radiant health on all levels." },
+                        { question: "Dealing with Grief and Loss", answer: "Grief is a natural response to loss, and there is no 'right way' to do it. Adam's approach is to honor your unique grieving process, providing a compassionate space to feel and process the pain without judgment. He helps you find ways to honor who or what you have lost while learning to navigate life in your new reality." },
+                        { question: "Creativity and Spirituality", answer: "Creativity is a life force and a natural expression of the spirit. If you feel creatively blocked, it is often a sign of a deeper spiritual blockage. Adam helps you clear the fears and self-doubt that stifle your creative expression, allowing your soul to express itself more freely in all areas of your life." },
+                        { question: "Setting Healthy Boundaries", answer: "Setting boundaries is a fundamental act of self-love. It's about honoring your own needs and energy. If you find it hard to say 'no' or often feel drained by others, Adam can help you identify where you need boundaries, communicate them effectively, and overcome the guilt that often accompanies them." },
+                        { question: "Manifestation and Law of Attraction", answer: "Manifestation is more than just positive thinking. It's the art of aligning your energy, thoughts, feelings, and actions with what you desire to co-create in your life. Adam's approach teaches you to go beyond simple affirmations, helping you to clear the subconscious blocks that sabotage your efforts and become an energetic match for your desires." }
+                    ]
+                },
+                fr: {
+                    faqs: [
+                        { question: "Quels types de services proposez-vous ?", answer: "Adam propose du Conseil Spirituel et du Coaching de Vie. Sa méthode est unique car elle allie des techniques psychologiques éprouvées à une profonde sagesse spirituelle. Cette approche intégrée est conçue pour vous aider non seulement à faire face aux défis, mais aussi à les transformer en opportunités de croissance, de guérison et de création d'une vie plus épanouissante." },
+                        { question: "Quels sont les détails d'une séance ?", answer: "Chaque séance est une plage horaire dédiée de 90 minutes, au prix de 200 $. Pour assurer un progrès et un soutien constants, la plupart des clients trouvent qu'une rencontre hebdomadaire est le rythme le plus eficaz. La majorité des séances se déroulent facilement en ligne via Zoom." },
+                        { question: "Qui aidez-vous en particulier ?", answer: "Adam soutient un large éventail de personnes, y compris des adultes, des couples et des familles. Il possède une expertise et une concentration particulières pour guider les adolescents et les jeunes adultes (de 14 à 25 ans) à travers les complexités de la recherche de leur identité, de leur but et de leur confiance pendant les transitions cruciales de la vie." },
+                        { question: "Comment puis-je prendre rendez-vous pour une consultation ?", answer: 'Prendre rendez-vous pour votre consultation gratuite est simple. Le meilleur moyen est d\'envoyer un e-mail directement à Adam à <a href="mailto:adamdheyes@gmail.com" class="text-pink-600 font-semibold hover:underline">adamdheyes@gmail.com</a>. Vous pouvez également remplir le formulaire "Get in Touch" sur ce site, et il vous contactera pour convenir d\'un moment.' }
+                    ],
+                    topics: [
+                        { question: "Qu'est-ce que la Psychologie Spirituelle ?", answer: "La Psychologie Spirituelle est une approche qui unit les principes de la psychologie traditionnelle à la sagesse spirituelle. Il ne s'agit pas seulement de l'esprit, mais de la personne dans son ensemble — esprit, corps et âme. L'objectif est de guérir à un niveau plus profond, en vous aidant à vous connecter à votre vrai moi, à trouver un but significatif et à vivre une vie plus authentique et joyeuse, allant au-delà de la simple gestion des symptômes." },
+                        { question: "Comment fonctionne la 'guérison profonde' ?", answer: "La guérison profonde va au-delà du simple fait de parler des problèmes. C'est un processus de libération des fardeaux émotionnels et des schémas de pensée négatifs qui pueden être bloqués dans votre système depuis des années. Adam utilise des techniques pour vous aider à accéder à ces 'blessures' dans un environnement sûr, à comprendre leurs origines et à les transformer. Comme le dit Rumi, 'la blessure est l'endroit par où la Lumière entre en vous'. En abordant ces domaines, vous créez de l'espace pour que plus de paix, de clarté et d'énergie positive entrent dans votre vie." },
+                        { question: "Quelle est la différence avec la thérapie traditionnelle ?", answer: "Alors que la thérapie traditionnelle se concentre souvent sur le diagnostic et le traitement des symptômes d'un point de vue clinique, l'approche d'Adam est plus holistique. Il considère vos défis de vie dans le contexte plus large de votre voyage spirituel. Le but n'est pas seulement de soulager la souffrance, mais aussi de vous aider à vous éveiller à votre plein potentiel et à utiliser les défis de la vie como des catalyseurs pour la croissance spirituelle et la découverte de soi." },
+                        { question: "Gestion de l'Anxiété", answer: "L'anxiété provient souvent de pensées axées sur le futur et d'un système nerveux hyperactif. L'approche d'Adam combine la pleine conscience pour vous ancrer dans le présent, des exercices de respiration pour calmer la réponse physique du corps, et l'exploration des racines de vos peurs. L'objectif est de transformer l'anxiété d'un obstacle paralysant en un signal qui vous guide vers les domaines de votre vie nécessitant attention et guérison." },
+                        { question: "Surmonter la Dépression", answer: "La dépression peut être ressentie comme un nuage lourd qui bloque la lumière. Au-delà des approches conventionnelles, le conseil spirituel explore le vide existentiel ou la déconnexion de l'âme qui sous-tend souvent la dépression. Le travail se concentre sur la reconnexion avec votre but, la recherche de sens même dans la douleur, et la culture de l'auto-compassion pour rallumer votre lumière intérieure." },
+                    ]
+                },
+                pt: {
+                     faqs: [
+                        { question: "Que tipo de serviços você oferece?", answer: "Adam oferece Aconselhamento Espiritual e Coaching de Vida. Seu método é único, pois combina técnicas psicológicas comprovadas com uma profunda sabedoria espiritual. Esta abordagem integrada é projetada para ajudá-lo não apenas a lidar com os desafios, mas a transformá-los em oportunidades de crecimiento, cura e criação de uma vida mais gratificante." },
+                        { question: "Quais são os detalhes da sessão?", answer: "Cada sessão é um bloco de tempo dedicado de 90 minutos, com preço de $200. Para garantir progresso e apoio consistentes, la maioria dos clientes acha que se encontrar uma vez por semana é o ritmo mais eficaz. A maioria das sessões é convenientemente realizada online via Zoom." },
+                        { question: "Em quem você se especializa em ajudar?", answer: "Adam apoia uma ampla gama de indivíduos, incluindo adultos, casais e famílias. Ele tem uma perícia e foco particular em orientar adolescentes e jovens adultos (de 14 a 25 anos) através das complexidades de encontrar sua identidade, propósito e confiança durante as transições cruciais da vida." },
+                        { question: "Como posso agendar una consulta?", answer: 'Agendar sua consulta gratuita é simples. A melhor maneira é enviar um e-mail diretamente para Adam em <a href="mailto:adamdheyes@gmail.com" class="text-pink-600 font-semibold hover:underline">adamdheyes@gmail.com</a>. Você também pode preencher o formulário "Get in Touch" neste site, e ele entrará em contato com você para agendar um horário.' }
+                    ],
+                    topics: [
+                        { question: "O que é Psicologia Espiritual?", answer: "A Psicologia Espiritual é uma abordagem que une os princípios da psicologia tradicional com a sabedoria espiritual. Não se trata apenas da mente, mas da pessoa como um todo — mente, corpo e espírito. O objetivo é curar em um nível mais profundo, ajudando você a se conectar com seu verdadero eu, encontrar un propósito significativo e viver uma vida mais autêntica e alegre, indo além de apenas gerenciar sintomas." },
+                        { question: "Como funciona a 'cura profunda'?", answer: "A cura profunda vai além de apenas falar sobre problemas. É um processo de liberação de fardos emocionais e padrões de pensamiento negativos que podem estar presos em seu sistema por anos. Adam usa técnicas para ajudá-lo a acessar essas 'feridas' em um ambiente seguro, entender suas origens e transformá-las. Como diz Rumi, 'a ferida é o lugar por onde a Luz entra'. Ao abordar essas áreas, você cria espaço para que mais paz, clareza e energia positiva entrem em sua vida." },
+                        { question: "Qual é a diferença da terapia tradicional?", answer: "Enquanto a terapia tradicional muitas vezes se concentra em diagnosticar e tratar sintomas de uma perspectiva clínica, a abordagem de Adam é mais holística. Ele vê seus desafios de vida dentro do contexto mais amplo de sua jornada espiritual. O objetivo não é apenas aliviar o sofrimento, mas também ajudá-lo a despertar para o seu potencial máximo e usar os desafios da vida como catalisadores para o crescimento espiritual e a autodescoberta." },
+                        { question: "Gerenciando a Ansiedade", answer: "A ansiedade muitas vezes resulta de pensamentos focados no futuro e de um sistema nervoso hiperativo. A abordagem de Adam combina a atenção plena para ancorá-lo no presente, exercícios de respiração para acalmar a resposta física do corpo e a exploração da raiz de seus medos. O objetivo é transformar a ansiedade de um obstáculo paralisante em um sinal que o guia para áreas de sua vida que precisam de atenção e cura." },
+                        { question: "Superando a Depressão", answer: "A depressão pode parecer uma nuvem pesada bloqueando a luz. Além das abordagens convencionais, o aconselhamento espiritual explora o vazio existencial ou a desconexão em nível de alma que muitas vezes está por trás da dépression. O trabalho se concentra em reconectar com seu propósito, encontrar significado mesmo na dor e cultivar la autocompaixão para reacender sua luz interior." },
+                    ]
+                }
+            };
+        chatBubble?.addEventListener('click', () => { chatWindow.classList.remove('closing'); chatWindow.classList.add('open'); });
+        closeChatBtn?.addEventListener('click', () => { chatWindow.classList.add('closing'); setTimeout(() => { chatWindow.classList.remove('open'); langSelection.style.display = 'flex'; chatView.classList.add('hidden'); chatView.classList.remove('flex'); chatMessages.innerHTML = ''; suggestionContainer.innerHTML = ''; }, 300); });
+        const startChat = (lang) => { currentLang = lang; langSelection.style.display = 'none'; chatView.classList.remove('hidden'); chatView.classList.add('flex'); let msg = 'Hi! I\'m Adam AI. What would you like to learn about?'; if (lang === 'es') msg = '¡Hola! Soy Adam AI. ¿Sobre qué te gustaría aprender?'; addMessageToUI('bot', msg); showCategories(); };
+        const showCategories = () => { suggestionContainer.innerHTML = ''; let faqTitle = 'FAQs', topicsTitle = 'In-Depth Topics'; if (currentLang === 'es') { faqTitle = 'Preguntas Frecuentes'; topicsTitle = 'Temas de Profundidad'; } const faqBtn = document.createElement('button'); faqBtn.textContent = faqTitle; faqBtn.className = 'w-full text-left p-3 bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-lg transition font-semibold'; faqBtn.onclick = () => loadSuggestionButtons('faqs'); const topicsBtn = document.createElement('button'); topicsBtn.textContent = topicsTitle; topicsBtn.className = 'w-full text-left p-3 bg-cyan-100 hover:bg-cyan-200 text-cyan-800 rounded-lg transition font-semibold'; topicsBtn.onclick = () => loadSuggestionButtons('topics'); suggestionContainer.appendChild(faqBtn); suggestionContainer.appendChild(topicsBtn); };
+        const loadSuggestionButtons = (category) => { suggestionContainer.innerHTML = ''; const items = content[currentLang]?.[category] || []; items.forEach(item => { const btn = document.createElement('button'); btn.textContent = item.question; btn.className = 'w-full text-left p-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition text-sm'; btn.onclick = () => displayQA(item.question, item.answer); suggestionContainer.appendChild(btn); }); let backTxt = '‹ Back'; if (currentLang === 'es') backTxt = '‹ Volver'; const backBtn = document.createElement('button'); backBtn.textContent = backTxt; backBtn.className = 'w-full text-left p-2 text-gray-500 hover:text-purple-600 rounded-lg transition text-sm font-medium'; backBtn.onclick = showCategories; suggestionContainer.prepend(backBtn); };
+        const displayQA = (q, a) => { addMessageToUI('user', q); setTimeout(() => { addMessageToUI('bot', a); showCategories(); }, 500); };
+        selectEnBtn?.addEventListener('click', () => startChat('en')); selectEsBtn?.addEventListener('click', () => startChat('es')); selectFrBtn?.addEventListener('click', () => startChat('fr')); selectPtBtn?.addEventListener('click', () => startChat('pt'));
+        const addMessageToUI = (sender, message) => { const wrapper = document.createElement('div'); wrapper.className = `chat-message ${sender} mb-4 flex`; const bubble = document.createElement('div'); bubble.className = 'p-3 rounded-lg max-w-xs text-sm'; bubble.innerHTML = message; wrapper.appendChild(bubble); setTimeout(() => { chatMessages.appendChild(wrapper); chatMessages.scrollTop = chatMessages.scrollHeight; }, 0); };
+        
+        // Login Modal Logic
+        const campusVirtualBtn = document.getElementById('campus-virtual-btn');
+        const loginModal = document.getElementById('login-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        
+        campusVirtualBtn?.addEventListener('click', () => {
+            loginModal.classList.remove('hidden');
+            loginModal.classList.add('open');
+        });
+
+        const closeModal = () => {
+            loginModal.classList.add('closing');
+            setTimeout(() => {
+                loginModal.classList.remove('open', 'closing');
+                loginModal.classList.add('hidden');
+            }, 300);
+        };
+        closeModalBtn?.addEventListener('click', closeModal);
+        loginModal?.addEventListener('click', (e) => { if(e.target === loginModal) closeModal(); });
+        document.getElementById('login-form')?.addEventListener('submit', (e) => { e.preventDefault(); console.log('Login attempt'); closeModal(); });
+
+        // --- FILM SECTION LOGIC ---
+        const filmData = {
+            films: [
+                { id: 1, title: "Transforming Trauma", category: "pitch_decks", thumbnail: "https://optim.tildacdn.net/tild6339-3835-4436-b434-633035616666/-/cover/480x284/center/center/-/format/webp/Transforming_Trauma_.jpg.webp" },
+                { id: 2, title: "From Earth to Earth", category: "pitch_decks", thumbnail: "https://optim.tildacdn.net/tild3061-3463-4438-b464-343934303635/-/cover/480x284/center/center/-/format/webp/From_Earth_to_Earth_.jpg.webp" },
+                { id: 3, title: "Touching the Sky", category: "pitch_decks", thumbnail: "https://optim.tildacdn.net/tild6566-3934-4439-b438-626561393835/-/cover/480x284/center/center/-/format/webp/Screenshot_2024-11-2.png.webp" },
+                { id: 4, title: "Zaila", category: "pitch_decks", thumbnail: "https://optim.tildacdn.net/tild3466-3765-4939-b566-393662626666/-/cover/480x284/center/center/-/format/webp/Zaila_Pitch_Deck_Cov.jpeg.webp" },
+                { id: 5, title: "The New York Love Songs", category: "pitch_decks", thumbnail: "https://optim.tildacdn.net/tild6439-6233-4534-a135-656164653764/-/cover/480x284/center/center/-/format/webp/Screenshot_2024-11-2.png.webp" },
+                { id: 6, title: "Forecast: The Film", category: "websites", thumbnail: "https://static.tildacdn.net/tild3363-6232-4633-a531-616564313634/Screenshot_2024-11-2.png" },
+                { id: 7, title: "Transforming Trauma", category: "websites", thumbnail: "https://optim.tildacdn.net/tild6464-3432-4336-b832-343063306536/-/cover/574x340/center/center/-/format/webp/Screenshot_2024-11-2.png.webp" },
+                { id: 16, title: "Living Un Done", category: "movie_posters", thumbnail: "https://optim.tildacdn.net/tild3664-6639-4133-b665-383761613561/-/cover/496x740/center/center/-/format/webp/Living_Un_Done_Movie.png.webp" },
+                { id: 17, title: "Regina Doyle Poster", category: "movie_posters", thumbnail: "https://optim.tildacdn.net/tild6331-3462-4433-b164-393639333331/-/cover/496x740/center/center/-/format/webp/Regina_Doyle_Poster-.png.webp" },
+                { id: 22, title: "Touching the Sky", category: "one_sheets", thumbnail: "https://optim.tildacdn.net/tild3834-3965-4137-a637-656535613362/-/cover/604x768/center/center/-/format/webp/Touching_the_Sky_-_O.jpg.webp" },
+                { id: 23, title: "Transforming Trauma", category: "one_sheets", thumbnail: "https://optim.tildacdn.net/tild3036-6635-4336-b761-373134643230/-/cover/578x770/center/center/-/format/webp/Transforming_Trauma.jpg.webp" },
+            ],
+            categories: [
+                { value: "all", label: "All", description: "A curated showcase of visual excellence across various services." },
+                { value: "pitch_decks", label: "Pitch Decks", description: "" },
+                { value: "websites", label: "Websites", description: "I design almost exclusively in Wordpress, but can use other platforms like Squarespace if requested." },
+                { value: "fundraising_campaigns", label: "Fundraising Campaigns (Allyra)", description: "I can also design crowdfunding pages for Seed&Spark, Kickstarter, Indiegogo or other platforms." },
+                { value: "movie_posters", label: "Movie Posters and Design", description: "Click to Zoom" },
+                { value: "crowdfunding_videos", label: "Crowdfunding Videos", description: "" },
+                { value: "one_sheets", label: "One Sheets", description: "Click to Zoom" },
+            ],
+            videos: [
+                { title: "Born to Heal: The Holistic Veterans Documentary Trailer", description: "I produced this and supervised the editing process.", url: "https://vimeo.com/174280670?fl=pl&fe=sh" },
+                { title: "True North: Running with the Big Dogs Crowdfunding Video", description: "Editor - Successful Campaign!", url: "https://seedandspark.com/fund/true-north-honest-stories-of-finding-home-running-with-the-big-dogs#story" }
+            ],
+            services: [
+                { name: "Pitch Decks", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 11 8-8 8 8v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/></svg>` },
+                { name: "Movie Posters & One Sheets", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M21 7.5h-4"/><path d="M21 16.5h-4"/></svg>` },
+                { name: "Websites", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>` },
+                { name: "Crowdfunding Videos", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 13 5.223 3.482a.5.5 0 0 1 0 .836L16 20.818V13Z"/><rect width="14" height="12" x="2" y="6" rx="2"/><path d="M2 12h12"/></svg>` },
+                { name: "Fundraising Pages (Allyra)", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>` },
+                { name: "Copywriting, Editing & Proofreading", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>` },
+            ],
+            milestones: [
+                { year: "20 Years of Experience", description: "In design and business development.", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>` },
+                { year: "13 Years", description: "Specializing in independent filmmakers.", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M21 7.5h-4"/><path d="M21 16.5h-4"/></svg>` },
+                { year: "10+ Years", description: "Collaborating with From the Heart Productions.", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>` },
+                { year: "100+", description: "Satisfied Clients.", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>` },
+            ],
+            pricing: [
+                { service: 'Standard Hourly Rate', fth: '$50 / Hour', other: '$65 / Hour' },
+                { service: 'Editing Hourly Rate', fth: '$65 / Hour', other: '$75 / Hour' },
+                { service: 'Pitch Deck', fth: '$1350', other: '$1650' },
+                { service: 'Website', fth: '$1350', other: '$1650' },
+                { service: 'Crowdfunding Page', fth: '$250', other: '$320' },
+                { service: 'Movie Posters', fth: '$350', other: '$450' },
+                { service: 'One Sheet', fth: '$350', other: '$450' },
+            ]
+        };
+
+        // Inject Film Services
+        const filmServicesContainer = document.getElementById('film-services-grid');
+        filmData.services.forEach((service, index) => {
+            const serviceEl = document.createElement('div');
+            serviceEl.className = 'fade-in';
+            serviceEl.style.transitionDelay = `${index * 50}ms`;
+            serviceEl.innerHTML = `
+                <a href="#film-work" class="block p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-purple-100 text-purple-600 rounded-full">${service.icon}</div>
+                        <h4 class="text-xl font-bold text-gray-800">${service.name}</h4>
+                    </div>
+                </a>`;
+            filmServicesContainer.appendChild(serviceEl);
+            fadeInObserver.observe(serviceEl);
+        });
+        
+        // Inject Timeline Milestones
+        const milestonesContainer = document.getElementById('timeline-milestones');
+        filmData.milestones.forEach((item) => {
+            const milestoneEl = document.createElement('div');
+            milestoneEl.className = 'relative pl-12 fade-in';
+            milestoneEl.innerHTML = `
+                <div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-[var(--color-purple)] glow-pulse transform -translate-x-1/2">${item.icon}</div>
+                <div class="p-4 rounded-xl shadow-lg bg-gray-900/50 backdrop-blur-sm border border-white/10">
+                    <p class="text-2xl font-bold text-white neon-glow-title" style="animation-duration: 6s">${item.year}</p>
+                    <p class="text-gray-300 mt-1">${item.description}</p>
+                </div>`;
+            milestonesContainer.appendChild(milestoneEl);
+            fadeInObserver.observe(milestoneEl);
+        });
+        
+        // Inject Pricing
+        const pricingBody = document.getElementById('pricing-body');
+        filmData.pricing.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.className = 'fade-in';
+            row.style.transitionDelay = `${index * 50}ms`;
+            row.innerHTML = `
+                <td class="font-bold text-gray-800">${item.service}</td>
+                <td class="text-center font-semibold highlight neon-glow-price">${item.fth}</td>
+                <td class="text-center font-semibold">${item.other}</td>
+            `;
+            pricingBody.appendChild(row);
+            fadeInObserver.observe(row);
+        });
+
+        // Film Work Samples Logic
+        const workDescription = document.getElementById('work-description');
+        const gallery = document.getElementById('work-gallery');
+        const websitesLinks = document.getElementById('websites-links');
+        const buttonsContainer = document.getElementById('category-buttons');
+        let currentCategory = 'all';
+
+        function renderGallery(category) {
+            let filmsToRender = category === 'all' ? filmData.films : filmData.films.filter(f => f.category === category);
+            gallery.innerHTML = '';
+            websitesLinks.classList.add('hidden');
+            gallery.classList.remove('max-w-4xl', 'mx-auto', 'px-6', 'space-y-8');
+
+            if (category === 'crowdfunding_videos') {
+                gallery.classList.add('max-w-4xl', 'mx-auto', 'px-6', 'space-y-8');
+                filmData.videos.forEach((video, index) => {
+                    const videoEl = document.createElement('a');
+                    videoEl.href = video.url;
+                    videoEl.target = '_blank';
+                    videoEl.rel = 'noopener noreferrer';
+                    videoEl.className = 'block bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all fade-in';
+                    videoEl.style.transitionDelay = `${index * 100}ms`;
+                    videoEl.innerHTML = `<h4 class="text-xl font-bold text-gray-800">${video.title}</h4><p class="text-gray-600 mt-1">${video.description}</p><span class="text-sm font-semibold text-[var(--color-purple)] mt-2 inline-block">Watch Video →</span>`;
+                    gallery.appendChild(videoEl);
+                    fadeInObserver.observe(videoEl);
+                });
+            } else {
+                const extendedFilms = filmsToRender.length > 0 ? Array(Math.ceil(40 / filmsToRender.length)).fill(filmsToRender).flat() : [];
+                gallery.innerHTML = `<div class="marquee-wrapper"><div class="marquee-row">${extendedFilms.map(film => `
+                    <div class="w-48 md:w-56 flex-shrink-0 px-2">
+                        <div class="group relative overflow-hidden rounded-lg shadow-md will-change-transform aspect-[3/4] bg-gray-200 cursor-pointer" onclick="openFilmModal('${film.thumbnail}')">
+                            <img src="${film.thumbnail}" alt="${film.title}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" loading="lazy" />
+                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="w-10 h-10 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="currentColor" class="w-5 h-5 text-white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`).join('')}</div></div>`;
+            }
+            if (category === 'websites') websitesLinks.classList.remove('hidden');
+            workDescription.textContent = filmData.categories.find(c => c.value === category).description;
+        }
+
+        filmData.categories.forEach(cat => {
+            const button = document.createElement('button');
+            button.textContent = cat.label;
+            button.className = 'px-5 py-2.5 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none relative overflow-hidden text-sm md:text-base';
+            button.onclick = () => {
+                currentCategory = cat.value;
+                renderGallery(currentCategory);
+                updateButtons();
+            };
+            buttonsContainer.appendChild(button);
+        });
+
+        function updateButtons() {
+            Array.from(buttonsContainer.children).forEach((btn, index) => {
+                btn.className = filmData.categories[index].value === currentCategory ? 
+                    'px-5 py-2.5 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none relative overflow-hidden text-sm md:text-base btn-aurora text-white shadow-lg shadow-[var(--color-aqua-start)]/30' : 
+                    'px-5 py-2.5 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none relative overflow-hidden text-sm md:text-base bg-white text-[var(--color-text-light)] hover:text-[var(--color-text-dark)] border-2 border-gray-200';
+            });
+        }
+        renderGallery('all');
+        updateButtons();
+        
+        // Film Contact Form
+        const filmContactForm = document.getElementById('film-contact-form');
+        filmContactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('film-contact-form-wrapper').classList.add('hidden');
+            document.getElementById('film-thank-you-message').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('film-contact-form-wrapper').classList.remove('hidden');
+            document.getElementById('film-thank-you-message').classList.add('hidden');
+            filmContactForm.reset();
+        }, 5000);
+    });
+
+    // --- VIEW TOGGLING LOGIC ---
+    const mainView = document.getElementById('main-view');
+    const filmView = document.getElementById('film-view');
+    const showFilmBtn = document.getElementById('show-film-view-btn');
+    const backToMainBtn = document.getElementById('back-to-main-view-btn');
+    const homeLogoLink = document.querySelector('#main-nav a[aria-label="Home"]');
+    const mainNavLinks = document.querySelectorAll('#main-nav nav a');
+
+    function showMainView() {
+        filmView.classList.add('hidden');
+        mainView.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    function showFilmView() {
+        mainView.classList.add('hidden');
+        filmView.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    showFilmBtn.addEventListener('click', showFilmView);
+    backToMainBtn.addEventListener('click', showMainView);
+    
+    homeLogoLink.addEventListener('click', (e) => {
+        // If in film view, prevent default and go to main view.
+        // Otherwise, let it act as a normal link (scrolling to top).
+        if (!filmView.classList.contains('hidden')) {
+            e.preventDefault();
+            showMainView();
+        }
+    });
+
+    mainNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            if (!filmView.classList.contains('hidden')) {
+                e.preventDefault();
+                showMainView();
+                const targetId = link.getAttribute('href');
+                setTimeout(() => {
+                    document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
+                }, 50);
+            }
+        });
+    });
+});
+
+    // --- FILM MODAL LOGIC (Global Scope) ---
+    const filmModal = document.getElementById('film-image-modal');
+    const filmModalImg = document.getElementById('film-modal-img');
+    let isFilmModalZoomed = false;
+
+    window.openFilmModal = function(src) {
+        filmModalImg.src = src;
+        filmModal.classList.remove('hidden');
+        isFilmModalZoomed = false;
+        filmModalImg.style.transform = 'scale(1)';
+    }
+
+    function closeFilmModal() {
+        filmModal.classList.add('hidden');
+    }
+
+    function toggleFilmZoom(img) {
+        isFilmModalZoomed = !isFilmModalZoomed;
+        img.style.transform = isFilmModalZoomed ? 'scale(1.5)' : 'scale(1)';
+    }
+
+    filmModal.addEventListener('click', closeFilmModal);
+    filmModalImg.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleFilmZoom(this);
+    });
+
+    </script>
+</body>
+</html>
+
